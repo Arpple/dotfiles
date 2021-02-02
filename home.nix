@@ -5,6 +5,8 @@ let
   email = "apple0239@gmail.com";
   homeDir = "/home/arpple";
 
+  projectHiddenDir = ".arpple";
+
   any-nix-shell = pkgs.fetchFromGitHub {
     owner = "haslersn";
     repo = "any-nix-shell";
@@ -43,10 +45,14 @@ in {
     userName = user;
     userEmail = email;
 
-    ignores = [ ".arpple/" ];
+    ignores = [ projectHiddenDir ];
 
     extraConfig = {
       credential.helper = "store"; # better use 'libsecret' from pkgs.gitAndTools.Full but it fail on build
+    };
+
+    aliases = {
+      root-dir = "rev-parse --show-toplevel";
     };
   };
 
@@ -58,6 +64,10 @@ in {
     plugins = [
 
     ];
+
+    shellAliases = {
+      arp-nix = "nix-shell (git root-dir)/${projectHiddenDir}/shell.nix";
+    };
 
     promptInit = ''
       fish_vi_key_bindings
