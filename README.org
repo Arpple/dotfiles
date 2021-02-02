@@ -32,9 +32,11 @@ git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
 ln -sF "$PWD/doom.d" $HOME/.doom.d
 ~/.emacs.d/bin/doom install
 #+end_src
+*** [[https://github.com/hlissner/doom-emacs][doom-emacs repo]]
 
 * Font
 ** install adobe source code pro
 #+begin_src bash :results silent
 ./scripts/setup-font.sh
 #+end_src
+*** [[https://gist.github.com/enzinier/8d00d3f37d2e23985dcfa65662d163fa][source code]]

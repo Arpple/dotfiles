@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# src: https://gist.github.com/enzinier/8d00d3f37d2e23985dcfa65662d163fa
-
 # ~/.fonts is now deprecated and that
 #FONT_HOME=~/.fonts
 # ~/.local/share/fonts should be used instead
