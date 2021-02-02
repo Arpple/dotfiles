@@ -34,6 +34,12 @@ in {
     enable = true;
     userName = user;
     userEmail = email;
+
+    ignores = [ ".arpple/" ];
+
+    extraConfig = {
+      credential.helper = "store"; # better use 'libsecret' from pkgs.gitAndTools.Full but it fail on build
+    };
   };
   
   fonts.fontconfig.enable = true;
