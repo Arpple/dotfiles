@@ -4,30 +4,30 @@
 ** [[https://github.com/Trundle/NixOS-WSL][build and install nixos on WSL]]
 
 ** or uninstall existing WSL distro
-#+begin_src bash
+#+begin_src bash :results silent
 wsl --unregister NixOS
 #+end_src
 
 ** setup nixos
-#+begin_src
+#+begin_src :results silent
 ./scripts/setup-nixos.sh
 #+end_src
 
 ** install home-manager
-#+begin_src bash
+#+begin_src bash :results silent
 nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
 nix-channel --update
 #+end_src
 *** [[https://github.com/nix-community/home-manager][home manager git repo]]
 
 ** setup home-manager
-#+begin_src bash
+#+begin_src bash :results silent
 ./scripts/setup-homemanager
 #+end_src
 
 * Doom Emacs
 ** install doom emacs
-#+begin_src bash
+#+begin_src bash :results silent
 git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
 ln -sF "$PWD/doom.d" $HOME/.doom.d
 ~/.emacs.d/bin/doom install
@@ -35,6 +35,6 @@ ln -sF "$PWD/doom.d" $HOME/.doom.d
 
 * Font
 ** install adobe source code pro
-#+begin_src bash
+#+begin_src bash :results silent
 ./scripts/setup-font.sh
 #+end_src
