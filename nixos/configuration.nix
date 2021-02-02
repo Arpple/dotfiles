@@ -58,4 +58,6 @@ in
     cmake
     unzip
   ];
+
+  programs.fish.enable = true;
 }
