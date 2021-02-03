@@ -37,7 +37,9 @@ in {
     zstd
     editorconfig-core-c
     sqlite
+    nodejs
     nodePackages.javascript-typescript-langserver
+    nodePackages.eslint
   ];
 
   programs.git = {
@@ -48,7 +50,7 @@ in {
     ignores = [ projectHiddenDir ];
 
     extraConfig = {
-      credential.helper = "store"; # better use 'libsecret' from pkgs.gitAndTools.Full but it fail on build
+      credential.helper = "store";
     };
 
     aliases = {
