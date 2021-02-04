@@ -75,6 +75,9 @@ in {
       fish_vi_key_bindings
       any-nix-shell fish | source
       set fish_greeting
+
+      set IP (cat /etc/resolv.conf | grep nameserver | string split ' ')[2]
+      set -x DISPLAY "$IP":0.0
     '';
   };
 
