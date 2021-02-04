@@ -57,6 +57,7 @@ in
     vim
     cmake
     unzip
+    fontconfig
   ];
 
   programs.fish.enable = true;
