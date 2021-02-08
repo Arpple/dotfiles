@@ -6,6 +6,7 @@ let
   homeDir = "/home/arpple";
 
   projectHiddenDir = ".arpple";
+  binDir = ./bin;
 
   any-nix-shell = pkgs.fetchFromGitHub {
     owner = "haslersn";
@@ -82,6 +83,7 @@ in {
       set -x DISPLAY "$IP":0.0
 
       set -xg PATH ~/.emacs.d/bin $PATH
+      set -xg PATH ${binDir} $PATH
     '';
   };
 

@@ -1,0 +1,3 @@
+#!/usr/bin/env fish
+set DIR (git root-dir)
+"$DIR"/.arpple/cmd/"$argv[1]"
