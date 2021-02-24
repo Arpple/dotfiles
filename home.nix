@@ -116,6 +116,22 @@ in {
       cmd_duration = {
         disabled = true;
       };
+
+      openstack = {
+        disabled = true;
+      };
+
+      aws = {
+        disabled = true;
+      };
+
+      username = {
+        disabled = true;
+      };
+
+      hostname= {
+        disabled = true;
+      };
     };
   };
 }
