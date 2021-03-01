@@ -30,6 +30,7 @@ in {
     starship
     emacs
     any-nix-shell
+    direnv
 
     # doom-emacs deps
     (ripgrep.override { withPCRE2 = true; })
