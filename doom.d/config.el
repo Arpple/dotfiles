@@ -13,6 +13,7 @@
   )
 
 (setq-default tab-width 2
+              indent-tabs-mode t
               fill-column 100)
 
 (add-to-list 'default-frame-alist '(alpha . 95))
