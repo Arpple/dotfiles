@@ -1,14 +1,13 @@
-{ lib, pkgs, config, ... }:
+{ lib, pkgs, config, modulesPath, ... }:
 
 with lib;
-
 let
   defaultUser = "arpple";
   syschdemd = import ./syschdemd.nix { inherit lib pkgs config defaultUser; };
 in
 {
   imports = [
-    <nixpkgs/nixos/modules/profiles/minimal.nix>
+    "${modulesPath}/profiles/minimal.nix"
   ];
 
   # WSL is closer to a container than anything else
@@ -18,10 +17,9 @@ in
   environment.etc."resolv.conf".enable = false;
 
   networking.dhcpcd.enable = false;
-  networking.firewall.enable = false;
 
   users.users.${defaultUser} = {
-    isNormalUser =true;
+    isNormalUser = true;
     extraGroups = [ "wheel" ];
     shell = pkgs.fish;
   };
@@ -31,11 +29,6 @@ in
     # Otherwise WSL fails to login as root with "initgroups failed 5"
     extraGroups = [ "root" ];
   };
-
-  # Described as "it should not be overwritten" in NixOS documentation,
-  # but it's on /run per default and WSL mounts /run as a tmpfs, hence
-  # hiding the wrappers.
-  security.wrapperDir = "/wrappers";
 
   security.sudo.wheelNeedsPassword = false;
 
@@ -55,6 +48,7 @@ in
   environment.systemPackages = with pkgs; [
     wget
     vim
+    git
     cmake
     unzip
     fontconfig
