@@ -11,8 +11,8 @@ let
   any-nix-shell = pkgs.fetchFromGitHub {
     owner = "haslersn";
     repo = "any-nix-shell";
-    rev = "v1.2.0";
-    sha256 = "05xixgsdfv0qk648r74nvazw16dpw49ryz8dax9kwmhqrgkjaqv6";
+    rev = "v1.2.1";
+    sha256 = "0q27rhjhh7k0qgcdcfm8ly5za6wm4rckh633d0sjz87faffkp90k";
   };
 
 in {

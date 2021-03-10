@@ -20,7 +20,8 @@
 
 ;; key
 (map! :ni "s-F" #'+ivy/project-search
-      :n "<f12>" #'+lookup/definition)
+      :n "<f12>" #'+lookup/definition
+      :g "C-`" nil)
 
 
 ;; spacemacs style double space execute command
