@@ -21,8 +21,16 @@
 ;; key
 (map! :ni "s-F" #'+ivy/project-search
       :n "<f12>" #'+lookup/definition
-      :g "C-`" nil)
+      :g "C-`" nil
+      :g "M-q" #'evil-force-normal-state)
 
+(map! :leader
+      :desc "next buffer"
+      "]" #'evil-next-buffer)
+
+(map! :leader
+      :desc "prev buffer"
+      "[" #'evil-prev-buffer)
 
 ;; spacemacs style double space execute command
 (map! :leader
