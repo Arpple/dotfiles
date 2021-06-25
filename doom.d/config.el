@@ -2,7 +2,7 @@
 
 ;; style
 (setq display-line-numbers-type 'relative
-      doom-font (font-spec :family "Source Code Pro" :size 17 :weight 'bold)
+      doom-font (font-spec :family "Source Code Pro for Powerline" :size 17 :weight 'bold)
       doom-theme 'doom-molokai
       doom-modeline-indent-info t
       tab-width 2)
@@ -22,7 +22,8 @@
 (map! :ni "s-F" #'+ivy/project-search
       :n "<f12>" #'+lookup/definition
       :g "C-`" nil
-      :g "M-q" #'evil-force-normal-state)
+      :g "M-q" #'evil-force-normal-state
+      :g "C-V" #'+evil/alt-paste)
 
 (map! :leader
       :desc "next buffer"

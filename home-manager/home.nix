@@ -6,7 +6,7 @@ let
   homeDir = "/home/arpple";
 
   projectHiddenDir = ".arpple";
-  binDir = ./bin;
+  binDir = ../bin;
 
   any-nix-shell = pkgs.fetchFromGitHub {
     owner = "haslersn";
@@ -62,78 +62,4 @@ in {
   };
 
   fonts.fontconfig.enable = true;
-
-  programs.fish = {
-    enable = true;
-
-    plugins = [
-
-    ];
-
-    shellAliases = {
-      arp-nix = "nix-shell (git root-dir)/${projectHiddenDir}/shell.nix";
-    };
-
-    promptInit = ''
-      any-nix-shell fish | source
-
-      set fish_greeting
-      fish_vi_key_bindings
-
-      # export DISPLAY for emacs
-      set IP (cat /etc/resolv.conf | grep nameserver | string split ' ')[2]
-      set -x DISPLAY "$IP":0.0
-
-      set -xg PATH ~/.emacs.d/bin $PATH
-      set -xg PATH ${binDir} $PATH
-    '';
-  };
-
-  programs.starship = {
-    enable = true;
-    enableFishIntegration = true;
-
-    settings = {
-      git_branch = {
-        format = "[$symbol$branch]($style) ";
-        symbol = " ";
-        style = "green";
-      };
-
-      package = {
-        disabled = true;
-      };
-
-      nix_shell = {
-        style = "cyan";
-        format = "[nix-$state]($style) ";
-      };
-
-      character = {
-        success_symbol = "\\(・ω・\\)ﾉ";
-        error_symbol = "\\(;゜Д゜\\)";
-        vicmd_symbol = "\\(´ ▽ `\\)v";
-      };
-
-      cmd_duration = {
-        disabled = true;
-      };
-
-      openstack = {
-        disabled = true;
-      };
-
-      aws = {
-        disabled = true;
-      };
-
-      username = {
-        disabled = true;
-      };
-
-      hostname= {
-        disabled = true;
-      };
-    };
-  };
 }

@@ -47,7 +47,7 @@ mount /dev/sda3 /mnt
 ** install base
 #+begin_src bash :results silent
 pacstrap /mnt base linux linux-firmware
-pacman -S vim git
+pacman -S vim git openssh
 #+end_src
 
 ** config
@@ -119,6 +119,43 @@ umount -l /mnt
 shutdown now
 #+end_src
 
+* VM Guest Utils
+#+begin_src bash :results silent
+sudo pacman -S virtualbox-guest-util
+sudo systemctl enable vboxservice.service
+#+end_src
+
+* Shell
+** setup fish
+#+begin_src bash :results silent
+sudo pacman -S fish
+sh -c "$(curl -fsSL https://starship.rs/install.sh)"
+#+end_src
+
+
+** install fisher
+#+begin_src fish :results silent
+curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
+#+end_src
+
+**  set default shell
+#+begin_src fish :results silent
+chsh -s (which fish)
+#+end_src
+
+** setup fish and starship
+#+begin_src fish
+./fish/setup.sh
+./starship/setup.sh
+#+end_src
+
+* GUI
+#+begin_src bash :results silent
+sudo pacman -S xorg xorg-xinit xmonad xmonad-contrib alacritty powerline-fonts
+./alacritty/setup.sh
+./xmonad/setup.sh
+#+end_src
+
 * Nix
 ** install nix
 #+begin_src bash :results silent
@@ -135,13 +172,24 @@ if [ -e /home/arpple/.nix-profile/etc/profile.d/nix.sh ]; then . /home/arpple/.n
 nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
 nix-channel --update
 nix-shell '<home-manager>' -A install
+./home-manager/setup.sh
 #+end_src
 *** [[https://github.com/nix-community/home-manager][home manager git repo]]
 
-** setup home-manager
+* Font
+** install powerline font
 #+begin_src bash :results silent
-./scripts/setup-homemanager
+./scripts/setup-font.sh
 #+end_src
+*** [[https://gist.github.com/enzinier/8d00d3f37d2e23985dcfa65662d163fa][source code]]
+
+* GUI Terminal
+** install alacritty
+#+begin_src fish :results silent
+#+end_src
+
+* GUI
+**
 
 * Doom Emacs
 ** install doom emacs
@@ -152,9 +200,3 @@ ln -sF "$PWD/doom.d" $HOME/.doom.d
 #+end_src
 *** [[https://github.com/hlissner/doom-emacs][doom-emacs repo]]
 
-* Font
-** install adobe source code pro
-#+begin_src bash :results silent
-./scripts/setup-font.sh
-#+end_src
-*** [[https://gist.github.com/enzinier/8d00d3f37d2e23985dcfa65662d163fa][source code]]
