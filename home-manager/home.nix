@@ -40,6 +40,7 @@ in {
     editorconfig-core-c
     sqlite
     nodejs
+    php
     nodePackages.javascript-typescript-langserver
     nodePackages.eslint
   ];

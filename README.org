@@ -1,22 +1,140 @@
 #+TITLE: config files
+* Setup VirtualBox
+- new
+- ram 8GB = 8192MB
+- disk 20GB
+- setting
+  - system > motherboard > Enable EFI
+  - system > processor > 4 core
+  - display > screen > video mem = max
+  - storage > add ISO
+  - user interface > remove menu
 
-* NixOS
-** [[https://github.com/Trundle/NixOS-WSL][build and install nixos on WSL]]
-
-** or uninstall existing WSL distro
+* Setup Arch Linux
+** setup clock
 #+begin_src bash :results silent
-wsl --unregister NixOS
+timedatectl set-ntp true
 #+end_src
 
-** setup nixos
-#+begin_src :results silent
-./scripts/setup-nixos.sh
+** partition
+#+begin_src bash :results silent
+fdisk /dev/sda
+
+# create gpt: g
+
+# add partition: n
+# last sector: +512M
+
+# add partiion: n
+# last sector: +2G
+
+# add partition: n
+# last sector: (empty = all)
+
+# change p1 to main: t 1 1 (EFI System)
+# change p2 to swap: t 2 19 (Linux Swap)
+#+end_src
+
+** format and mount
+#+begin_src bash :results silent
+mkfs.fat -F32 /dev/sda1
+mkswap /dev/sda2
+swapon /dev/sda2
+mkfs.ext4 /dev/sda3
+mount /dev/sda3 /mnt
+#+End_src
+
+** install base
+#+begin_src bash :results silent
+pacstrap /mnt base linux linux-firmware
+pacman -S vim git
+#+end_src
+
+** config
+#+begin_src bash :results silent
+genfstab -U /mnt >> /mnt/etc/fstab
+arch-chroot /mnt
+hwclock --systohc
+#+end_src
+
+** setup locale
+edit ~/etc/locale.gen~ uncomment ~en_US.UTF-8~
+
+gen locale
+#+begin_src bash :results silent
+locale
+#+end_src
+
+edit ~/etc/locale.conf~
+#+begin_src
+LANG=en_US.UTF-8
+#+end_src
+
+** setup host
+edit ~/etc/hostname~
+#+begin_src
+vbox
+#+end_src
+
+edit ~/etc/hosts~
+#+begin_src
+127.0.0.1  localhost
+::1        localhost
+127.0.1.1  vbox.localdomain vbox
+#+end_src
+
+** change root password
+#+begin_src bash :results silent
+passwd
+#+end_src
+
+** create user
+#+begin_src bash :results silent
+useradd -m arpple
+usermod -aG wheel,audio,video,optical,storage arpple
+pacman -S sudo
+visudo
+# uncomment wheel group
+#+end_src
+
+** setup grub bootloader
+#+begin_src bash :results silent
+pacman -S grub efibootmgr dosfstools os-prober mtools
+mkdir /boot/EFI
+mount /dev/sda1 /boot/EFI
+grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck
+grub-mkconfig -o /boot/grub/grub.cfg
+#+end_src
+
+** setup network
+#+begin_src bash :results silent
+pacman -S networkmanager
+systemctl enable NetworkManager
+#+end_src
+
+** exit
+#+begin_src bash :results silent
+exit
+umount -l /mnt
+shutdown now
+#+end_src
+
+* Nix
+** install nix
+#+begin_src bash :results silent
+curl -L https://nixos.org/nix/install | sh
+#+end_src
+
+edit ~\~/.bashrc~
+#+begin_src
+if [ -e /home/arpple/.nix-profile/etc/profile.d/nix.sh ]; then . /home/arpple/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 #+end_src
 
 ** install home-manager
 #+begin_src bash :results silent
 nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
 nix-channel --update
+nix-shell '<home-manager>' -A install
 #+end_src
 *** [[https://github.com/nix-community/home-manager][home manager git repo]]
 
