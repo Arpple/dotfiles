@@ -176,6 +176,10 @@ nix-shell '<home-manager>' -A install
 #+end_src
 *** [[https://github.com/nix-community/home-manager][home manager git repo]]
 
+** install fish plugin
+#+begin_src fish :results silent
+fisher install lilyball/nix-env.fish
+#+end_src
 * Font
 ** install powerline font
 #+begin_src bash :results silent

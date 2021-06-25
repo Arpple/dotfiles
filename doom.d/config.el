@@ -22,8 +22,7 @@
 (map! :ni "s-F" #'+ivy/project-search
       :n "<f12>" #'+lookup/definition
       :g "C-`" nil
-      :g "M-q" #'evil-force-normal-state
-      :g "C-V" #'+evil/alt-paste)
+      :g "M-q" #'evil-force-normal-state)
 
 (map! :leader
       :desc "next buffer"
