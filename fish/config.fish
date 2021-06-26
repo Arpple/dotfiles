@@ -1,5 +1,6 @@
 set fish_greeting
 fish_vi_key_bindings
+set fish_force_cursor
 set fish_cursor_default block
 set fish_cursor_insert line
 set fish_cursor_replace_one underscore
@@ -10,7 +11,8 @@ if status is-login
     exec startx -- -keeptty
   end
 end
-
+ 
+any-nix-shell fish --info-right | source
 starship init fish | source
 
 set -xg PATH ~/.emacs.d/bin $PATH

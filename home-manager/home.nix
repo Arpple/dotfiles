@@ -8,13 +8,6 @@ let
   projectHiddenDir = ".arpple";
   binDir = ../bin;
 
-  any-nix-shell = pkgs.fetchFromGitHub {
-    owner = "haslersn";
-    repo = "any-nix-shell";
-    rev = "v1.2.1";
-    sha256 = "0q27rhjhh7k0qgcdcfm8ly5za6wm4rckh633d0sjz87faffkp90k";
-  };
-
 in {
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

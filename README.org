@@ -180,6 +180,7 @@ nix-shell '<home-manager>' -A install
 #+begin_src fish :results silent
 fisher install lilyball/nix-env.fish
 #+end_src
+
 * Font
 ** install powerline font
 #+begin_src bash :results silent
