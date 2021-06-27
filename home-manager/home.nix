@@ -36,6 +36,9 @@ in {
     php
     nodePackages.javascript-typescript-langserver
     nodePackages.eslint
+
+    elixir
+    elixir_ls
   ];
 
   programs.git = {

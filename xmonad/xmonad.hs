@@ -6,4 +6,10 @@ main = xmonad def
   , borderWidth = 3
   , normalBorderColor = "black"
   , focusedBorderColor = "white"
+  -- , startupHook = startup
   }
+
+-- startup :: X ()
+-- startup = do
+  -- spawn "nitrogen"
+  -- spawn "dmenu_run"
