@@ -93,7 +93,11 @@
 (defun arp/dir ()
   "open .arpple dir"
   (interactive)
-  (counsel-find-file (expand-file-name ".arpple" projectile-project-root)))
+  (let ((dir (expand-file-name ".arpple" projectile-project-root)))
+    (if (file-exists-p dir)
+	(counsel-find-file dir)
+	(print! "no .arpple dir created"))))
+
 
 (defun arp/ansi-term-toggle ()
   "Toggle ansi-term window on and off with the same command."
