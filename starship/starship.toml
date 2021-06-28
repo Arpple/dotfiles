@@ -13,9 +13,9 @@ style = "cyan"
 format = "[nix-$state]($style) "
 
 [character]
-# success_symbol = "\\(・ω・\\)ﾉ"
-# error_symbol = "\\(゜Д゜\\)"
-# vicmd_symbol = "\\(´ ▽ `\\)v"
+success_symbol = "\\(・ω・\\)ﾉ"
+error_symbol = "\\(゜Д゜;\\)"
+vicmd_symbol = "\\(´ ▽ `\\)v"
 
 [cmd_duration]
 disabled = true
