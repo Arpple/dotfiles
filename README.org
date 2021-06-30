@@ -95,6 +95,7 @@ usermod -aG wheel,audio,video,optical,storage arpple
 pacman -S sudo
 visudo
 # uncomment wheel group
+passwd arpple
 #+end_src
 
 ** setup grub bootloader
