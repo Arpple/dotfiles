@@ -43,7 +43,8 @@
       centaur-tabs-modified-marker "!")
 
 (map! :n "s-]" #'centaur-tabs-forward
-      :n "s-[" #'centaur-tabs-backward)
+      :n "s-[" #'centaur-tabs-backward
+      :n "s-s" #'save-buffer)
 
 
 ;; treemacs
@@ -57,11 +58,10 @@
 (use-package! indium)
 
 
-;; use eslint for typescript
 (add-hook! 'typescript-mode-hook
+  ;; use eslint for typescript
   (flycheck-select-checker 'javascript-eslint)
-  (map! :n "<f2>" #'tide-rename-symbol)
-  )
+  (map! :n "<f2>" #'tide-rename-symbol))
 
 
 ;; open default file when switch project
