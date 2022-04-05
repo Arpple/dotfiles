@@ -17,6 +17,6 @@ ln -s "$PWD/starship.toml" ~/.config/starship.toml
 rm -r ~/.doom.d
 ln -s "$PWD/doom.d" ~/.doom.d
 
-# pacman hook
-sudo rm /etc/pacman.d/hooks/list-package.hook
-sudo ln -s "$PWD/pacman/list-package.hook" /etc/pacman.d/hooks/list-package.hook
+# i3
+rm ~/.config/i3/config
+ln -s "$PWD/i3.config" ~/.config/i3/config
