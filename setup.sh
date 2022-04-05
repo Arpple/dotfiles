@@ -20,3 +20,8 @@ ln -s "$PWD/doom.d" ~/.doom.d
 # i3
 rm ~/.config/i3/config
 ln -s "$PWD/i3.config" ~/.config/i3/config
+
+# polybar
+rm ~/.config/polybar/config
+rm ~/.config/polybar/config.ini
+ln -s "$PWD/polybar.ini" ~/.config/polybar/config.ini
