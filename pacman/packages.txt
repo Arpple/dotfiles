@@ -10,3 +10,11 @@ openssh
 starship
 vim
 virtualbox-guest-utils
+
+fd
+ripgrep
+direnv
+editorconfig-core-c
+shellcheck
+tidy
+stylelint
