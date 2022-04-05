@@ -1,38 +1,51 @@
 * Dotfiles
-** NixOS setup
-#+begin_src bash
-sudo su
-cfdisk
-# /dev/sda1 512M EFI system
-# /dev/sda2 2G Linux Swap
-# /dev/sda3 - Linux File
+my personal config
+** VM setup
+- use ~EFI~
+- set display controller to ~VBoxVGA~
 
-mkfs.fat -F32 /dev/sda1
-mkswap /dev/sda2
-swapon /dev/sda2
-mkfs.ext4 /dev/sda3
-mount /dev/sda3 /mnt
+** Arch Setup
+partition
 
-mkdir -p /mnt/boot
-mount /dev/sda1 /mnt/boot
+boot
+- 300 MB
+- fat32
+- /boot/efi
+- tag: boot
 
-ln -sF "$PWD/nixos" /mnt/etc/nixos
-nixos-install
-reboot
+swap
+- 1024 MB
+- linuxswap
+- tag: swap
+
+root
+- 20 GB
+- ext4
+- /
+- tag: root
+
+home
+- all
+- ext4
+- /home
+
+** Install AUR
+#+begin_src sh
+sudo pacman -S --needed base-devel git
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
 #+end_src
 
-login as root and `passwd arpple`
+** Install package
+#+begin_src sh
+git clone https://github.com/arpple/dotfiles
+sudo pacman -S --needed - < pacman/pkglist.txt
+yay -S --needed - < pacman/pkglist-yay.txt
 
-** Install Home-Manager
-#+begin_src fish
-mkdir -p ~/.config/nixpkgs
-ln -sF "$PWD/home.nix" $HOME/.config/nixpkgs/home.nix
-nix-channel --add https://github.com/nix-community/home-manager/archive/release-21.05.tar.gz home-manager
-nix-channel --update
-# relogin
-nix-shell '<home-manager>' -A install
-home-manager switch
+./setup.sh
 #+end_src
+
 
 ** Install doom emacs
 #+begin_src fish

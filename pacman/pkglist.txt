@@ -71,6 +71,8 @@ neofetch
 networkmanager
 nilfs-utils
 nix
+noto-fonts-cjk
+noto-fonts-emoji
 ntfs-3g
 openssh
 os-prober
