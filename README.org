@@ -53,6 +53,17 @@ git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
 ~/.emacs.d/bin/doom install
 #+end_src
 
+** Install fisher and nix
+#+begin_src bash
+sh <(curl -L https://nixos.org/nix/install) --no-daemon
+#+end_src
+
+#+begin_src fish
+curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
+fisher install lilyball/nix-env.fish
+nix-env -i any-nix-shell -f https://github.com/NixOS/nixpkgs/archive/master.tar.gz
+#+end_src
+
 ** Troubleshoots
 *** sqlite error on non-exists command
 sqlite error when running non-exists command
