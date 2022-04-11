@@ -1,4 +1,6 @@
 alacritty
+docker
+docker-compose
 emacs
 firefox
 fish

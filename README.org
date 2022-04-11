@@ -64,6 +64,15 @@ fisher install lilyball/nix-env.fish
 nix-env -i any-nix-shell -f https://github.com/NixOS/nixpkgs/archive/master.tar.gz
 #+end_src
 
+** Install docker
+after install from package
+#+begin_src fish
+sudo systemctl enable service.docker
+sudo systemctl start service.docker
+sudo usermod -aG docker $USER
+sudo chmod 666 /var/run/docker.sock
+#+end_src
+
 ** Troubleshoots
 *** sqlite error on non-exists command
 sqlite error when running non-exists command
@@ -98,3 +107,4 @@ rm ~/.cache/dmenu_run
 #+begin_src fish
 systemctl --user enable --now emacs
 #+end_src
+

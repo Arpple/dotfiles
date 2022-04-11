@@ -1,1 +1,4 @@
 powerline-fonts-git
+elm-language-server
+elm-platform-bin
+elm-test
