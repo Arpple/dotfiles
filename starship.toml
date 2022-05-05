@@ -18,7 +18,10 @@ error_symbol = "\\(゜Д゜;\\)"
 vicmd_symbol = "\\(´ ▽ `\\)v"
 
 [cmd_duration]
-disabled = true
+disabled = false
+show_milliseconds = true
+style = "black"
+format = "[$duration]($style)"
 
 [openstack]
 disabled = true
