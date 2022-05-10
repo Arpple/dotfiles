@@ -73,6 +73,11 @@ sudo usermod -aG docker $USER
 sudo chmod 666 /var/run/docker.sock
 #+end_src
 
+** Polybar pomodoro tomato
+#+begin_src fish
+git clone https://github.com/unode/polypomo ~/.polypomo
+#+end_src
+
 ** Troubleshoots
 *** sqlite error on non-exists command
 sqlite error when running non-exists command

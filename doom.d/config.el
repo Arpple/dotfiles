@@ -13,8 +13,8 @@
   )
 
 (setq-default tab-width 2
-              indent-tabs-mode t
-              fill-column 100)
+	      indent-tabs-mode t
+	      fill-column 100)
 
 (add-to-list 'default-frame-alist '(alpha . 95))
 
@@ -69,9 +69,8 @@
 (add-hook! 'typescript-mode-hook
   ;; use eslint for typescript
   ;; (flycheck-select-checker 'javascript-eslint)
-  (map! :n "<f2>" #'tide-rename-symbol))
-
-(setq js-indent-level 1)
+  (map! :n "<f2>" #'tide-rename-symbol)
+  (setq js-indent-level 1))
 
 
 ;; open default file when switch project
