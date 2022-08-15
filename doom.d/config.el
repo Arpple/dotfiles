@@ -16,7 +16,7 @@
 	      indent-tabs-mode t
 	      fill-column 100)
 
-(add-to-list 'default-frame-alist '(alpha . 95))
+(add-to-list 'default-frame-alist '(alpha . 98))
 
 ;; key
 (map! :ni "s-F" #'+ivy/project-search
