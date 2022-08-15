@@ -5,3 +5,4 @@ elm-platform-bin
 elm-test
 elixir
 elixir-ls
+xclip
