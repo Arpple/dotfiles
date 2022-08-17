@@ -6,3 +6,4 @@ elm-test
 elixir
 elixir-ls
 xclip
+xorg-xset

@@ -2,7 +2,7 @@
 my personal config
 ** VM setup
 - use ~EFI~
-- set display controller to ~VBoxVGA~
+- set display controller to ~VMSVGA~
 
 ** Arch Setup
 partition
@@ -46,6 +46,11 @@ yay -S --needed - < pacman/packages-yay.txt
 ./setup.sh
 #+end_src
 
+** Change shell
+#+begin_src sh
+# if already in fish shell
+chsh -s (which fish)
+#+end_src
 
 ** Install doom emacs
 #+begin_src fish
@@ -76,6 +81,11 @@ sudo chmod 666 /var/run/docker.sock
 ** Polybar pomodoro tomato
 #+begin_src fish
 git clone https://github.com/unode/polypomo ~/.polypomo
+#+end_src
+
+** Keyboard rate
+#+begin_src sh
+xset r rate 400 40
 #+end_src
 
 ** Troubleshoots
