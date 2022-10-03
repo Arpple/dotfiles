@@ -42,8 +42,8 @@
 (setq centaur-tabs-set-bar 'under
       centaur-tabs-modified-marker "!")
 
-(map! :n "s-]" #'centaur-tabs-forward
-      :n "s-[" #'centaur-tabs-backward
+(map! :n "M-]" #'centaur-tabs-forward
+      :n "M-[" #'centaur-tabs-backward
       :n "s-s" #'save-buffer)
 
 
