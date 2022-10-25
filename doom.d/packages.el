@@ -13,3 +13,4 @@
 (package! phpactor)
 (package! flycheck-clj-kondo)
 (package! rescript-mode)
+(package! lsp-rescript)

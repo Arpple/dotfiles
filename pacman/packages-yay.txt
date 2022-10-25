@@ -1,6 +1,7 @@
 dunst
 powerline-fonts-git
 unzip
+wget
 xclip
 xorg-xset
 
@@ -15,3 +16,5 @@ elm-test
 
 elixir
 elixir-ls
+
+rescript-ls
