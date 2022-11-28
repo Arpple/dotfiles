@@ -18,3 +18,5 @@ elixir
 elixir-ls
 
 rescript-ls
+
+slack-desktop

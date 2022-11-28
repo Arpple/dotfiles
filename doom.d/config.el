@@ -22,7 +22,9 @@
 (map! :ni "s-F" #'+ivy/project-search
       :n "<f12>" #'+lookup/definition
       :g "C-`" nil
-      :g "M-q" #'evil-force-normal-state)
+      :g "M-q" #'evil-force-normal-state
+      :n "M-h" #'centaur-tabs-backward
+      :n "M-l" #'centaur-tabs-forward)
 
 (map! :leader
       :desc "next buffer"
