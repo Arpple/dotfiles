@@ -12,7 +12,6 @@ openssh
 starship
 vim
 virtualbox-guest-utils
-
 fd
 ripgrep
 direnv
