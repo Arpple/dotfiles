@@ -97,8 +97,10 @@ xset r rate 400 40
 *** update system corrupt PGP key
 reset keyring
 #+begin_src fish
-find /var/cache/pacman/pkg/ -iname "*.part" -exec rm {} \;
+sudo rm -r /etc/pacman.d/gnupg
+sudo pacman-key --init
 sudo pacman-key --populate
+sudo pacman -S archlinux-keyring
 #+end_src
 
 *** sqlite error on non-exists command
