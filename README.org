@@ -29,6 +29,11 @@ home
 - ext4
 - /home
 
+** Update system
+#+begin_src sh
+sudo pacman -Syuu
+#+end_src
+
 ** Install AUR
 #+begin_src sh
 sudo pacman -S --needed base-devel git
@@ -89,6 +94,12 @@ xset r rate 400 40
 #+end_src
 
 ** Troubleshoots
+*** update system corrupt PGP key
+reset keyring
+#+begin_src fish
+sudo pacman-key --populate
+#+end_src
+
 *** sqlite error on non-exists command
 sqlite error when running non-exists command
 #+begin_src fish
