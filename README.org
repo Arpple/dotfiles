@@ -97,6 +97,7 @@ xset r rate 400 40
 *** update system corrupt PGP key
 reset keyring
 #+begin_src fish
+find /var/cache/pacman/pkg/ -iname "*.part" -exec rm {} \;
 sudo pacman-key --populate
 #+end_src
 
