@@ -29,6 +29,13 @@
       :desc "prev buffer"
       "[" #'evil-prev-buffer)
 
+;; swap key in macos
+(if IS-MAC
+    (setq mac-command-modifier      'meta
+          ns-command-modifier       'meta
+	  mac-option-modifier       'super
+	  ns-option-modifier        'super))
+
 ;; spacemacs style double space execute command
 (map! :leader
       :desc "execute command"
