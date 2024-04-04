@@ -1,42 +1,23 @@
 * Dotfiles
 my personal config
 ** VM setup
-- use ~EFI~
+- don't use ~EFI~
 - set display controller to ~VMSVGA~
+- enable 3D accelerate
 
 ** Arch Setup
-partition
+run install command
+```bash
+archinstall
+```
 
-boot
-- 300 MB
-- fat32
-- /boot/efi
-- tag: boot
-
-swap
-- 1024 MB
-- linuxswap
-- tag: swap
-
-root
-- 20 GB
-- ext4
-- /
-- tag: root
-
-home
-- all
-- ext4
-- /home
-
-** Update system
-#+begin_src sh
-sudo pacman -Syuu
-#+end_src
+- partition > recommend > ext4
+- Profile > Type > xorg
+- Additional: git base-devel vim
+- select NetworkManager
 
 ** Install AUR
 #+begin_src sh
-sudo pacman -S --needed base-devel git
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si
@@ -63,15 +44,13 @@ git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
 ~/.emacs.d/bin/doom install
 #+end_src
 
-** Install fisher and nix
+** Install fisher
 #+begin_src bash
 sh <(curl -L https://nixos.org/nix/install) --no-daemon
 #+end_src
 
 #+begin_src fish
 curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
-fisher install lilyball/nix-env.fish
-nix-env -i any-nix-shell -f https://github.com/NixOS/nixpkgs/archive/master.tar.gz
 #+end_src
 
 ** Install docker
@@ -83,31 +62,13 @@ sudo usermod -aG docker $USER
 sudo chmod 666 /var/run/docker.sock
 #+end_src
 
-** Polybar pomodoro tomato
-#+begin_src fish
-git clone https://github.com/unode/polypomo ~/.polypomo
-#+end_src
-
 ** Keyboard rate
+add to ~/.xinitrc
 #+begin_src sh
-xset r rate 400 40
+xset r rate 220 40
 #+end_src
 
 ** Troubleshoots
-*** update system corrupt PGP key
-reset keyring
-#+begin_src fish
-sudo rm -r /etc/pacman.d/gnupg
-sudo pacman-key --init
-sudo pacman-key --populate
-sudo pacman -S archlinux-keyring
-#+end_src
-
-*** sqlite error on non-exists command
-sqlite error when running non-exists command
-#+begin_src fish
-sudo nix-channel --update
-#+end_src
 *** setup postgres password
 connect to postgres with alias helper
 #+begin_src fish
@@ -117,19 +78,6 @@ psql-connect
 enter sql
 #+begin_src sql
 ALTER USER postgres PASSWORD 'postgres';
-#+end_src
-
-*** npm install error with building node-gyp
-use local node instead of global
-#+begin_src fish
-nix-shell -p nodejs-16_x # or other version
-npm install
-#+end_src
-
-*** dmenu application not update
-clear cache
-#+begin_src fish
-rm ~/.cache/dmenu_run
 #+end_src
 
 *** start emacs server

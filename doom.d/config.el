@@ -1,5 +1,7 @@
 ;;; .doom.d/config.el -*- lexical-binding: t; -*-
 
+(setq shell-file-name (executable-find "bash"))
+
 ;; style
 (setq display-line-numbers-type 'relative
       doom-font (font-spec :family "Source Code Pro for Powerline" :size 17 :weight 'bold)
@@ -9,8 +11,7 @@
 
 (custom-set-faces!
   '(hl-line :background "#353535")
-  '(hl-fill-column-face :background "#ee7600")
-  )
+  '(hl-fill-column-face :background "#ee7600"))
 
 (setq-default tab-width 2
 	      indent-tabs-mode t
@@ -19,20 +20,10 @@
 (add-to-list 'default-frame-alist '(alpha . 98))
 
 ;; key
-(map! :ni "s-F" #'+ivy/project-search
-      :n "<f12>" #'+lookup/definition
-      :g "C-`" nil
+(map! :g "C-`" nil
       :g "M-q" #'evil-force-normal-state
       :n "M-h" #'centaur-tabs-backward
       :n "M-l" #'centaur-tabs-forward)
-
-(map! :leader
-      :desc "next buffer"
-      "]" #'evil-next-buffer)
-
-(map! :leader
-      :desc "prev buffer"
-      "[" #'evil-prev-buffer)
 
 ;; spacemacs style double space execute command
 (map! :leader
@@ -42,12 +33,11 @@
 
 ;; centaur tabs
 (setq centaur-tabs-set-bar 'under
-      centaur-tabs-modified-marker "!")
+      centaur-tabs-modified-marker "!"
+      centaur-tabs-excluded-prefixes (list "*" "Treemacs Update"))
 
-(map! :n "M-]" #'centaur-tabs-forward
-      :n "M-[" #'centaur-tabs-backward
-      :n "s-s" #'save-buffer)
-
+;; key
+(map! :n "s-s" #'save-buffer)
 
 ;; treemacs
 (setq treemacs-width 30)
@@ -63,30 +53,15 @@
 (after! treemacs
   (treemacs-follow-mode))
 
-
-;; indium
-(use-package! indium)
-
-
+;; typescript
 (add-hook! 'typescript-mode-hook
   ;; use eslint for typescript
   ;; (flycheck-select-checker 'javascript-eslint)
   (map! :n "<f2>" #'tide-rename-symbol)
-  (setq js-indent-level 1))
+  (setq js-indent-level 'tab-width))
 
-
-;; open default file when switch project
-(defvar project-file nil)
-(put 'project-file 'safe-local-variable t)
-
-(setq +workspaces-switch-project-function
-      (lambda (dir)
-	(let ((default-directory dir))
-	  (hack-dir-local-variables-non-file-buffer)
-	  (if (bound-and-true-p project-file)
-	      (find-file (expand-file-name project-file dir))
-	      (doom-project-find-file dir)))))
-
+(add-hook! 'js-mode-hook
+	   (setq js-indent-level 2))
 
 ;; elixir
 (after! alchemist
@@ -109,20 +84,8 @@
 ;;   (defalias #'forward-evil-word #'forward-evil-symbol)
 ;;   (setq-default evil-symbol-word-search t))
 
-;; personal dir
-(defun arp/dir ()
-  "open .arpple dir"
-  (interactive)
-  (let ((dir (expand-file-name ".arpple" projectile-project-root)))
-    (if (file-exists-p dir)
-	(counsel-find-file dir)
-	(print! "no .arpple dir created"))))
-
-
-(map! :leader
-      :desc "open secret .arpple dir"
-      :prefix "f"
-      "a" #'arp/dir)
+;; gleam
+(use-package gleam-mode :load-path "~/utils/gleam-mode")
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

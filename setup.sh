@@ -2,6 +2,7 @@
 
 # fish
 FISH_FILE=~/.config/fish/config.fish
+mkdir -p ~/.config/fish
 if [ -f "$FISH_FILE" ]; then
 	rm $FISH_FILE
 fi
@@ -31,6 +32,7 @@ ln -s "$PWD/doom.d" $DOOM_DIR
 
 # i3
 I3_FILE=~/.config/i3/config
+mkdir -p ~/.config/i3
 if [ -f "$I3_FILE" ]; then
 	rm $I3_FILE
 fi
@@ -39,11 +41,17 @@ ln -s "$PWD/i3.config" $I3_FILE
 # polybar
 POLYBAR_FILE=~/.config/polybar/config
 POLYBAR_FILE2=~/.config/polybar/config.ini
+POLYBAR_FILE_SH=~/.config/polybar/launch.sh
+mkdir -p ~/.config/polybar
 if [ -f "$POLYBAR_FILE" ]; then
 	rm $POLYBAR_FILE
 fi
 if [ -f "$POLYBAR_FILE2" ]; then
 	rm $POLYBAR_FILE2
 fi
+if [ -f "$POLYBAR_FILE_SH" ]; then
+	rm $POLYBAR_FILE_SH
+fi
 
 ln -s "$PWD/polybar.ini" $POLYBAR_FILE2
+ln -s "$PWD/polybar.sh" $POLYBAR_FILE_SH

@@ -1,0 +1,37 @@
+[colors.bright]
+black = "#808080"
+blue = "#0066ff"
+cyan = "#00ffff"
+green = "#33ff00"
+magenta = "#cc00ff"
+red = "#fe0100"
+white = "#ffffff"
+yellow = "#feff00"
+
+[colors.cursor]
+cursor = "#dddddd"
+text = "#f81ce5"
+
+[colors.normal]
+black = "#333333"
+blue = "#0066ff"
+cyan = "#00ffff"
+green = "#33ff00"
+magenta = "#cc00ff"
+red = "#ff4444"
+white = "#d0d0d0"
+yellow = "#feff00"
+
+[colors.primary]
+background = "#000000"
+foreground = "#dddddd"
+
+[cursor.style]
+shape = "Beam"
+
+[font]
+size = 12
+
+[font.normal]
+family = "Meslo LG M DZ for Powerline"
+style = "Bold"
