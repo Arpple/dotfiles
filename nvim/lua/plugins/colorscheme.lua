@@ -338,7 +338,7 @@ return {
             ["@variable.member"] = { link = "TSVariable" },
             --
             --
-            -- ["@lsp.type.class"] = { link = "TSType" },
+            ["@lsp.type.class"] = { link = "TSType" },
             -- ["@lsp.type.comment"] = { fg = "#ffff00" },
             -- ["@lsp.type.decorator"] = { link = "TSFunction" },
             -- ["@lsp.type.enum"] = { link = "TSType" },
@@ -370,9 +370,13 @@ return {
             ["@lsp.type.property.lua"] = { link = "TSProperty" },
             ["@lsp.type.comment.lua"] = { link = "@comment.lua" },
 
+            -- javascript
+            ["@comment.javascript"] = { link = "Highlight" },
+
             -- typescript
             ["@comment.typescript"] = { link = "Highlight" },
-            ["@lsp.type.class.typescript"] = { link = "TSType" },
+            ["@comment.documentation.typescript"] = { link = "Highlight" },
+            ["@lsp.type.namespace.typescript"] = { link = "TSType" },
             ["@constructor.typescript"] = { link = "TSType" },
             ["@punctuation.special.typescript"] = { link = "TSPunctBracket" },
             ["@variable.member.typescript"] = { link = "TSProperty" },

@@ -9,5 +9,11 @@ return {
       end,
       desc = "Add",
     },
+    {
+      "<leader>pf",
+      function()
+        require("telescope.builtin").find_files()
+      end,
+    }
   },
 }

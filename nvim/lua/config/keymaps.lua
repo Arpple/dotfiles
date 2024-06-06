@@ -3,3 +3,4 @@
 -- Add any additional keymaps here
 
 vim.keymap.set("n", "<leader><space>", "<cmd>Telescope commands<cr>", { desc = "Commands", remap = true })
+vim.keymap.set("n", "<C-t>", "<cmd>1po", { desc = "Jump out", remap = true })
