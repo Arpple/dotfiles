@@ -380,6 +380,9 @@ return {
             ["@constructor.typescript"] = { link = "TSType" },
             ["@punctuation.special.typescript"] = { link = "TSPunctBracket" },
             ["@variable.member.typescript"] = { link = "TSProperty" },
+
+            -- elixir
+            ["@module.elixir"] = { link = "TSType" },
           }
         end,
       },

@@ -14,4 +14,4 @@
 (package! flycheck-clj-kondo)
 (package! rescript-mode)
 (package! lsp-rescript)
-(package! treemacs :pin "1a02b862ad43761d5530b894bbdbf29f5b79fd9f")
+(package! treemacs :pin "76807bef3c128aca33064228a80c5e6937a67b8c")
