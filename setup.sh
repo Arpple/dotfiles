@@ -24,7 +24,7 @@ fi
 ln -s "$PWD/starship.toml" $STARSHIP_FILE
 
 # doom
-DOOM_DIR=~/.doom.d
+DOOM_DIR=~/.config/doom
 if [ -d "$DOOM_DIR" ]; then
 	rm -r $DOOM_DIR
 fi
