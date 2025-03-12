@@ -164,6 +164,7 @@
        ;;terra             ; Earth and Moon in alignment for performance.
        web               ; the tubes
        yaml
+       (zig +lsp)
 
        :email
        ;;(mu4e +gmail)

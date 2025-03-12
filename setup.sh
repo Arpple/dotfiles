@@ -14,7 +14,7 @@ if [ -d "$ALACRITTY_DIR" ]; then
 	rm -r $ALACRITTY_DIR
 fi
 mkdir -p $ALACRITTY_DIR
-ln -s "$PWD/alacritty.yml" $ALACRITTY_DIR/alacritty.yml
+ln -s "$PWD/alacritty.toml" $ALACRITTY_DIR/alacritty.toml
 
 # starship
 STARSHIP_FILE=~/.config/starship.toml
