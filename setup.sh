@@ -28,7 +28,14 @@ DOOM_DIR=~/.config/doom
 if [ -d "$DOOM_DIR" ]; then
 	rm -r $DOOM_DIR
 fi
-ln -s "$PWD/doom.d" $DOOM_DIR
+ln -s "$PWD/doom" $DOOM_DIR
+
+# nvim
+NVIM_DIR=~/.config/nvim
+if [ -d "$NVIM_DIR" ]; then
+	rm -r $NVIM_DIR
+fi
+ln -s "$PWD/nvim" $NVIM_DIR
 
 # i3
 I3_FILE=~/.config/i3/config

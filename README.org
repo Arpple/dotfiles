@@ -26,8 +26,7 @@ makepkg -si
 ** Install package
 #+begin_src sh
 git clone https://github.com/arpple/dotfiles
-sudo pacman -S --needed - < pacman/packages.txt
-yay -S --needed - < pacman/packages-yay.txt
+yay -S --needed - < pacman/packages.txt
 
 ./setup.sh
 #+end_src
