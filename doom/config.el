@@ -89,7 +89,7 @@
 (setq elm-mode-hook '(elm-indent-simple-mode))
 
 ;; gleam
-(use-package gleam-mode :load-path "~/utils/gleam-mode")
+;; (use-package gleam-mode :load-path "~/utils/gleam-mode")
 
 ;; clojure
 (add-hook 'clojure-mode-hook

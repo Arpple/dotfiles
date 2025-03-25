@@ -1,0 +1,12 @@
+# Ignore cache files
+*.cache
+cache*
+cached_layouts
+
+# Ignore logs
+*.log
+
+# Ignore temporary or runtime files
+*.tmp
+*.bak
+
