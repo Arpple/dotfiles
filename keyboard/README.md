@@ -4,7 +4,7 @@ this module provide
 - auto complete style for JP (similar to Windows IME)
 
 ## Info
-- `fcitx5` input method that support auto complete style for JP input
+- `fcitx5` input method that support auto complete style for JP input. use this instead of default KDE keyboard layout
 - `mozc` japanese input for fcitx5
 
 ## Usage
@@ -26,9 +26,6 @@ mkdir -p ~/.config/fontconfig
 ln -s "$PWD/fonts.conf" ~/.config/fontconfig/fonts.conf
 ```
 
-## Input Method
-use fcitx5 input method instead of using default KDE keyboard layout. it support auto complete hint style for JP input similar to Windows IME (auto convert romaji to Hiragana/Kanji)
-
 ### Install fcitx5
 ``` sh
 yay -S fcitx5-im fcitx5-mozc fcitx5-configtool
@@ -46,9 +43,9 @@ export XMODIFIERS=@im=fcitx
 
 ### Auto start fcitx5
 for KDE
-- open **Autostart** 
-- Add New > Application
-- select fcitx5
+- open **System Settings** > **Autostart** 
+- **Add New** > **Application**
+- select `fcitx5`
 - (optional) rename it to `Fcitx5 Input Method`
 - may need to reboot
 
