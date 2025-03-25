@@ -3,22 +3,17 @@ this module provide
 - keyboard input for EN/JP/TH
 - auto complete style for JP (similar to Windows IME)
 
-## Info
-- `fcitx5` input method that support auto complete style for JP input. use this instead of default KDE keyboard layout
-- `mozc` japanese input for fcitx5
-
-## Usage
-- `Alt + Shift` for change input method
-- `Ctrl + Space` for suggest JP word
-
 ## Setup
 
-### Install fonts
+### Fonts
+
+#### Install fonts
+install fonts that support JP/TH 
 ``` sh
 yay -S noto-fonts noto-fonts-cjk noto-fonts-emoji
 ```
 
-### Link font config
+#### Link font config
 this font config set prefer Thai font to be Noto Serif Thai instead of system default (Droid Sans)
 
 ``` sh
@@ -26,12 +21,15 @@ mkdir -p ~/.config/fontconfig
 ln -s "$PWD/fonts.conf" ~/.config/fontconfig/fonts.conf
 ```
 
-### Install fcitx5
+### Input Method
+use `fcitx5` input method instead of using default KDE keyboard layout. this support auto complete hint style for JP input similar to Windows IME (auto convert romaji to Hiragana/Kanji)
+
+#### Install fcitx5
 ``` sh
 yay -S fcitx5-im fcitx5-mozc fcitx5-configtool
 ```
 
-### Setup Environment Variable
+#### Setup Environment Variable
 add these lines to `~/.xprofile` for fcitx5
 
 ``` sh
@@ -41,15 +39,15 @@ export XMODIFIERS=@im=fcitx
 ```
 
 
-### Auto start fcitx5
+#### Auto start fcitx5
 for KDE
-- open **System Settings** > **Autostart** 
-- **Add New** > **Application**
-- select `fcitx5`
+- open **Autostart** 
+- Add New > Application
+- select fcitx5
 - (optional) rename it to `Fcitx5 Input Method`
 - may need to reboot
 
-### Link fcitx5 config
+#### Link fcitx5 config
 ``` sh
 mkdir -p ~/.config
 ln -s "$PWD/fcitx5" ~/.config/fcitx5
