@@ -36,11 +36,10 @@ Option         "AllowIndirectGLXProtocol" "off"
 
 reboot after
 
-
-### Steam
+### Steam and tools
 
 #### Enable Multilib
-need to enable this package repo first
+need to enable this package repo first before you can install Steam
 
 edit `/etc/pacman.conf`, uncomment multilib section. 
 
@@ -49,7 +48,7 @@ edit `/etc/pacman.conf`, uncomment multilib section.
 Include = /etc/pacman.d/mirrorlist
 ```
 
-### Install Steam and tools
+#### Install Steam
 ``` sh
 yay -S steam
 ```
@@ -81,15 +80,15 @@ Gamemode is program for optimize things for running application (game)
 yay -S gamemode lib32-gamemode
 ```
 
-### Run steam game
+## Run steam game
 
-#### Set global compatibility
+### Set global compatibility
 set Steam to run game with Proton-GE by default globally
 - in Steam, open **Settings** > **Compatibility**
 - toggle **Enable Steam Play for all other titles** = Enable
 - select **Run other titles with** = Proton-GE
 
-#### Set game option
+### Set game option
 for each game, set it to run with Gamemode 
 - select game, right click > **Properties...**
 - in **General** add **LAUNCH OPTIONS** `LD_PRELOAD="" gamemoderun %command%`
@@ -99,7 +98,7 @@ LD_PRELOAD="" gamemoderun %command%
 
 `LD_PRELOAD=""` has something to do with overlay. add this if you find game stuttering after running for a while.
 
-#### Linux native game
+### Linux native game
 for game that can be run by native Linux, need to overide global compatibility usin `Steam-Play-None`
 - install `Steam-Play-None` from Protonup-Qt > Add version
 - select game in Steam library, right click > **Properties...**
