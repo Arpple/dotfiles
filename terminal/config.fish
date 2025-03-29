@@ -14,4 +14,6 @@ end
 # pnpm end
 
 # nodenv
-status --is-interactive; and source (nodenv init -|psub)
+if type -q nodenv 
+  status --is-interactive; and source (nodenv init -|psub)
+end
