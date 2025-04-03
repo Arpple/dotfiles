@@ -15,5 +15,5 @@ end
 
 # nodenv
 if type -q nodenv 
-  status --is-interactive; and source (nodenv init -|psub)
+  status --is-interactive; and nodenv init - fish | source
 end

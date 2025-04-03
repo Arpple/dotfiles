@@ -5,10 +5,72 @@ this module provides
 - guest machine = Arch Linux 
 
 ## Setup
-*TODO: setup detail*
+### Install packages
+``` sh
+yay -S qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libguestfs
+```
+
+enable vm service and add user group
+``` sh
+sudo systemctl enable libvirtd
+sudo systemctl start libvirtd
+sudo usermod -aG libvirt $USER
+```
+
+may need to logout to apply change
+
+### Create VM
+- open virt-manager
+- create new VM
+- don't forget to use /home as storage instead of / as it will fill up space 
+- make sure display is set to **Spice** and video is set to **Virtio**
+- install Arch Linux
+
+### Setup Guest
+install yay package manager
+``` sh
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+```
+
+setup terminal, read [terminal](../../terminal/README.md) 
+
+install guest utils
+``` sh
+yay -S spice-vdagent qemu-guest-agent
+```
+
+you may need to edit service file before you can enable it, run
+``` sh
+sudo systemctl edit spice-vdagnetd
+```
+
+add this
+``` ini
+[Install]
+WantedBy=multi-user.target
+```
+
+do the same with `qemu-guest-agent`
+
+then start service
+``` sh
+sudo systemctl enable --now spice-vdagentd
+sudo systemctl enable --now qemu-guest-agent
+```
+
+add `spice-vdagent` to auto start, edit `~/.xprofile` and add
+``` sh
+spice-vdagent &
+```
 
 ## Auto Resize
 if `spice-vdagent` doesn't give auto resize ability, you can setup this script to do it.
+this only works in basic environment as it use `~/.XAuthority` file that is managed differently when you
+use login/session manager like `ssdm`, `lightdm` or `ly`
+
+in case you use those, just run `x-resize` manually everytime *shrug*
 
 ### Detect udev event
 to check if spice channel send event on resize or not, run this on guest
