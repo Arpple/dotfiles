@@ -4,10 +4,13 @@
 
 ;; style
 (setq display-line-numbers-type 'relative
-      doom-font (font-spec :family "Source Code Pro" :size 17 :weight 'bold)
+      doom-font (font-spec :family "SauceCodeProNerdFontMono" :size 17 :weight 'bold)
       doom-theme 'doom-molokai-custom
       doom-modeline-indent-info t
       tab-width 2)
+
+;; Japanese font
+(set-fontset-font t 'japanese-jisx0208 (font-spec :family "HackGen"))
 
 ;; (custom-set-faces!
 ;;   '(hl-line :background "#353535")
