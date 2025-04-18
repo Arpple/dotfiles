@@ -7,7 +7,7 @@ this modules provide
 ## Setup
 install all programs
 ``` sh
-yay -S alacritty fish starship
+yay -S alacritty fish starship nerd-fonts
 ```
 
 going into `fish` shell and change to default

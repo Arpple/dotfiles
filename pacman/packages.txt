@@ -8,7 +8,9 @@ git
 noto-fonts
 noto-fonts-cjk
 noto-fonts-emoji
-powerline-fonts-git
+nerd-fonts
+powerline-fonts
+ttf-adobe-source-code-pro-fonts
 openssh
 starship
 vim

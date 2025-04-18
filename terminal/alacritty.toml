@@ -33,5 +33,5 @@ shape = "Beam"
 size = 12
 
 [font.normal]
-family = "Meslo LG M DZ for Powerline"
+family = "MesloLGMDZ Nerd Font"
 style = "Bold"
