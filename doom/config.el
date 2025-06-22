@@ -7,7 +7,8 @@
       doom-font (font-spec :family "SauceCodeProNerdFontMono" :size 17 :weight 'bold)
       doom-theme 'doom-molokai-custom
       doom-modeline-indent-info t
-      tab-width 2)
+      tab-width 2
+      line-spacing 1)
 
 ;; Japanese font
 (set-fontset-font t 'japanese-jisx0208 (font-spec :family "HackGen"))
@@ -38,6 +39,7 @@
  :g "M-q" #'evil-force-normal-state
  :n "M-h" #'centaur-tabs-backward
  :n "M-l" #'centaur-tabs-forward)
+
 
 ;; spacemacs style double space execute command
 (map! :leader
@@ -100,6 +102,7 @@
       (custom-set-variables)
       '(font-lock-doc-face ((t (:foreground "yellow")))))
 
+(add-to-list 'exec-path "~/.dotnet/tools")
 ;; fix fly check hook
 ;; (remove-hook 'doom-first-buffer-hook 'global-flycheck-mode)
 

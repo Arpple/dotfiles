@@ -26,6 +26,7 @@ mkdir -p ~/.config/fish ~/.config/alacritty
 
 rm ~/.config/fish/config.fish
 ln -s "$PWD/config.fish" ~/.config/fish/config.fish
+ln -s "$PWD/functions/v.fish" ~/.config/fish/functions/v.fish
 
 rm ~/.config/alacritty/alacritty.toml
 ln -s "$PWD/alacritty.toml" ~/.config/alacritty/alacritty.toml

@@ -1,4 +1,21 @@
-# 💤 LazyVim
+# Neovim
+this modules provide
+- neovim config using LazyVim
 
-A starter template for [LazyVim](https://github.com/LazyVim/LazyVim).
-Refer to the [documentation](https://lazyvim.github.io/installation) to get started.
+## Setup
+install all programs
+``` sh
+yay -S neovim fd fzf lazygit wl-clipboard
+```
+
+link all config files
+``` sh
+ln -s "$PWD/nvim" ~/.config/nvim
+```
+
+to run neovim use `v`
+```sh
+v
+```
+
+when reload use `:cq`
