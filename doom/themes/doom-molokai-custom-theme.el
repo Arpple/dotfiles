@@ -182,6 +182,8 @@ Can be an integer to determine the exact padding."
    ((org-quote &override) :foreground base7)
    (org-todo :foreground yellow :bold 'inherit)
    (org-list-dt :foreground yellow)
+   ;;;; corfu
+   (corfu-current :foreground fg :background orange)
 
    ;;;; rainbow-delimiters
    ;; (rainbow-delimiters-depth-1-face :foreground grey)
