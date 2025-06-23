@@ -3,3 +3,5 @@
 -- Add any additional keymaps here
 
 vim.keymap.set("n", "<leader>bx", "<cmd>e ~/temp<cr>", { desc = "Open scratch buffer", remap = true })
+vim.keymap.del("n", "H")
+vim.keymap.del("n", "L")
