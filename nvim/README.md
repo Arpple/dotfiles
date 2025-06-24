@@ -10,7 +10,7 @@ yay -S neovim fd fzf lazygit wl-clipboard
 
 link all config files
 ``` sh
-ln -s "$PWD/nvim" ~/.config/nvim
+ln -s "$PWD/../nvim" ~/.config/nvim
 ```
 
 to run neovim use `v`
