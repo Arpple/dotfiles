@@ -13,7 +13,6 @@ set -gx PNPM_HOME "/home/arpple/.local/share/pnpm"
 if not string match -q -- $PNPM_HOME $PATH
   set -gx PATH "$PNPM_HOME" $PATH
 end
-# pnpm end
 
 # nodenv
 if type -q nodenv 
