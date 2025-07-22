@@ -36,15 +36,18 @@
 
 ;; key
 (map! :g "C-`" nil
- :g "M-q" #'evil-force-normal-state
- :n "M-h" #'centaur-tabs-backward
- :n "M-l" #'centaur-tabs-forward)
+      :g "M-q" #'evil-force-normal-state
+      :n "M-h" #'centaur-tabs-backward
+      :n "M-l" #'centaur-tabs-forward)
 
-
-;; spacemacs style double space execute command
 (map! :leader
- :desc "execute command"
- "SPC" #'execute-extended-command)
+      ;; spacemacs style double space execute command
+      :desc "execute command"
+      "SPC" #'execute-extended-command
+
+      :desc "explorer"
+      "e" #'+treemacs/toggle)
+
 
 ;; centaur tabs
 (setq centaur-tabs-set-bar 'under

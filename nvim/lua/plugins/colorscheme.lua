@@ -233,7 +233,7 @@ return {
             -- ["@boolean"] = { link = "TSBoolean" },
             -- ["@character"] = { link = "TSCharacter" },
             -- ["@character.special"] = { link = "TSCharacterSpecial" },
-            -- ["@comment"] = { link = "TSComment" },
+            ["@comment"] = { link = "TSComment" },
             -- ["@conceal"] = { link = "Grey" },
             -- ["@conditional"] = { link = "TSConditional" },
             -- ["@constant"] = { link = "TSConstant" },
