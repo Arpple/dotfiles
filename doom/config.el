@@ -57,6 +57,10 @@
 ;; key
 (map! :n "s-s" #'save-buffer)
 
+;; evil-snipe
+(after! evil-snipe
+  (setq evil-snipe-scope 'whole-buffer))
+
 ;; treemacs
 (setq treemacs-width 30)
 

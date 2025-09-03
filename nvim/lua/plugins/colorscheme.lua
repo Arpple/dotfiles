@@ -8,6 +8,7 @@ return {
   {
     "catppuccin/nvim",
     name = "catppuccin",
+    tag = "v1.10.0",
     opts = {
       term_colors = true,
       transparent_background = false,
