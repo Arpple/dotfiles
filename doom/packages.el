@@ -10,6 +10,7 @@
 (package! fish-mode)
 (package! treemacs :pin "76807bef3c128aca33064228a80c5e6937a67b8c")
 (package! screenshot :recipe (:host github :repo "tecosaur/screenshot"))
+(package! dape-mode :disable t)
 
 
 ;;; packages.el ends here

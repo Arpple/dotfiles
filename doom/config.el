@@ -113,6 +113,26 @@
   :config
   (map! :i "C-SPC" #'completion-at-point))  ;; Bind Ctrl + Space in insert mode
 
+(use-package! dap-mode
+  :after lsp-mode
+  :config
+  (dap-auto-configure-mode)
+  (dap-ui-mode 1)
+  (dap-tooltip-mode 1)
+  (dap-ui-controls-mode 1)
+
+  (require 'dap-gdb-lldb)
+
+  (map! :leader
+        (:prefix-map ("d" . "debug")
+         :desc "Debug" "d" #'dap-debug
+         :desc "Breakpoint toggle" "b" #'dap-breakpoint-toggle
+         :desc "Step over (Next)" "n" #'dap-next
+         :desc "Step into" "i" #'dap-step-in
+         :desc "Continue" "c" #'dap-continue
+         :desc "Disconnect (Quit)" "q" #'dap-disconnect)))
+
+
 ;; fix fly check hook
 ;; (remove-hook 'doom-first-buffer-hook 'global-flycheck-mode)
 
