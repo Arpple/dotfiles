@@ -170,7 +170,7 @@ return {
             -- TSConditional = { fg = colors.red },
             -- TSConstBuiltin = { fg = colors.mauve },
             -- TSConstMacro = { fg = colors.mauve },
-            -- TSConstant = { fg = colors.text },
+            TSConstant = { fg = colors.mauve },
             -- TSConstructor = { fg = colors.green },
             -- TSDebug = { link = "Debug" },
             -- TSDefine = { link = "Define" },
@@ -237,7 +237,7 @@ return {
             ["@comment"] = { link = "TSComment" },
             -- ["@conceal"] = { link = "Grey" },
             -- ["@conditional"] = { link = "TSConditional" },
-            -- ["@constant"] = { link = "TSConstant" },
+            ["@constant"] = { link = "TSConstant" },
             -- ["@constant.builtin"] = { link = "TSConstBuiltin" },
             -- ["@constant.macro"] = { link = "TSConstMacro" },
             -- ["@constructor"] = { link = "TSConstructor" },
@@ -362,6 +362,13 @@ return {
 
             -- elixir
             ["@module.elixir"] = { link = "TSType" },
+
+            -- c
+            ["@lsp.typemod.function.defaultLibrary.c"] = { link = "TSFunction" },
+            ["@lsp.typemod.enumMember.readonly.c"] = { link = "TSConstant" },
+            ["@lsp.type.macro.c"] = { link = "TSConstant" },
+            ["@type.builtin.c"] = { link = "TSType" },
+
           }
         end,
       },

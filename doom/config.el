@@ -85,21 +85,6 @@
 (add-hook! 'js-mode-hook
         (setq js-indent-level 2))
 
-;; elixir
-(after! alchemist
- (set-lookup-handlers! 'alchemist-mode :async t
-  :definition #'alchemist-goto-definition-at-point
-  :documentation #'alchemist-help-search-at-point))
-
-;; Enable format and iex reload on save
-(after! lsp
- (add-hook 'elixir-mode-hook
-         (lambda ()
-          (add-hook 'after-save-hook 'alchemist-iex-reload-module))))
-
-;; elm
-(setq elm-mode-hook '(elm-indent-simple-mode))
-
 ;; gleam
 ;; (use-package gleam-mode :load-path "~/utils/gleam-mode")
 
@@ -109,10 +94,12 @@
       (custom-set-variables)
       '(font-lock-doc-face ((t (:foreground "yellow")))))
 
-(use-package! corfu
-  :config
-  (map! :i "C-SPC" #'completion-at-point))  ;; Bind Ctrl + Space in insert mode
+;; (use-package! corfu
+;;   :config
+;;   (setq completion-styles '(orderless-initialism basic))
+;;   (map! :i "C-SPC" #'completion-at-point))  ;; Bind Ctrl + Space in insert mode
 
+;; debugger
 (use-package! dap-mode
   :after lsp-mode
   :config
@@ -132,26 +119,36 @@
          :desc "Continue" "c" #'dap-continue
          :desc "Disconnect (Quit)" "q" #'dap-disconnect)))
 
+;; C
+;; (use-package! eglot
+;;   :config
+;;   (setq eglot-ignored-server-capabilities '(:inlayHintProvider)))
+
+;; (set-eglot-client! 'c-mode '("clangd"
+;;                              "--background-index"
+;;                              "--header-insertion=never"
+;;                              "--completion-style=detailed"
+;;                              "--fallback-style=llvm"
+;;                              "--function-arg-placeholders=0"))
+
+
+(after! lsp-clangd
+  (setq lsp-clients-clangd-args '("--header-insertion=never"
+                                  "--background-index"
+                                  "--function-arg-placeholders=0")))
+
+
+(defun what-face (pos)
+  (interactive "d")
+  (let ((face (or (get-char-property pos 'read-face-name)
+                  (get-char-property pos 'face))))
+    (if face (message "Face: %s" face) (message "No face at %d" pos))))
+
+(after! treesit
+  (setq treesit-font-lock-level 4))
 
 ;; fix fly check hook
 ;; (remove-hook 'doom-first-buffer-hook 'global-flycheck-mode)
-
-;; (use-package! aider
-;;   :config
-;;   ;; For latest claude sonnet model
-;;   (setq aider-args '("--model" "sonnet" "--no-auto-accept-architect"))
-;;   (setenv "ANTHROPIC_API_KEY" anthropic-api-key)
-;;   ;; Or chatgpt model
-;;   ;; (setq aider-args '("--model" "o4-mini"))
-;;   ;; (setenv "OPENAI_API_KEY" <your-openai-api-key>)
-;;   ;; Or use your personal config file
-;;   ;; (setq aider-args `("--config" ,(expand-file-name "~/.aider.conf.yml")))
-;;   ;; ;;
-;;   ;; Optional: Set a key binding for the transient menu
-;;   (global-set-key (kbd "C-c a") 'aider-transient-menu) ;; for wider screen
-;;   ;; or use aider-transient-menu-2cols / aider-transient-menu-1col, for narrow screen
-;;   (aider-magit-setup-transients)) ;; add aider magit function to magit menu
-
 
 ;; (custom-set-variables
 ;;  ;; custom-set-variables was added by Custom.
