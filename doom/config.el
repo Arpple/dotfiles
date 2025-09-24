@@ -119,6 +119,8 @@
          :desc "Continue" "c" #'dap-continue
          :desc "Disconnect (Quit)" "q" #'dap-disconnect)))
 
+(setq! vterm-shell "/usr/bin/fish")
+
 ;; C
 ;; (use-package! eglot
 ;;   :config
@@ -131,12 +133,14 @@
 ;;                              "--fallback-style=llvm"
 ;;                              "--function-arg-placeholders=0"))
 
-
 (after! lsp-clangd
   (setq lsp-clients-clangd-args '("--header-insertion=never"
                                   "--background-index"
                                   "--function-arg-placeholders=0")))
 
+;; zig
+(after! lsp-mode
+  (setq lsp-zig-zig-lib-path "/usr/lib/zig"))
 
 (defun what-face (pos)
   (interactive "d")
@@ -146,6 +150,9 @@
 
 (after! treesit
   (setq treesit-font-lock-level 4))
+
+(after! zig-ts-mode
+  (setq zig-ts-mode-indent-offset 2))
 
 ;; fix fly check hook
 ;; (remove-hook 'doom-first-buffer-hook 'global-flycheck-mode)
