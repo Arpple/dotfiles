@@ -13,3 +13,22 @@ vim.api.nvim_create_autocmd({ "VimLeave" }, {
     vim.cmd('set guicursor= | call chansend(v:stderr, "\x1b[ q")')
   end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "txt" },
+  callback = function()
+    vim.opt_local.spell = false
+  end,
+})
+
+vim.api.nvim_create_autocmd('BufWritePre', {
+  group = vim.api.nvim_create_augroup('TrimTrailingWhitespace', { clear = true }),
+  callback = function()
+    -- Save cursor position to restore later
+    local curpos = vim.api.nvim_win_get_cursor(0)
+    -- Search and replace trailing whitespaces
+    vim.cmd([[keeppatterns %s/\s\+$//e]])
+    vim.api.nvim_win_set_cursor(0, curpos)
+  end,
+  desc = 'Trim trailing whitespaces on save',
+})
