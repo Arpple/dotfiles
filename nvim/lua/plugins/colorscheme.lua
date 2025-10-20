@@ -1,8 +1,13 @@
 return {
   {
+    "rktjmp/lush.nvim",
+    -- if you wish to use your own colorscheme:
+    { dir = '~/.config/nvim', lazy = true },
+  },
+  {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin",
+      colorscheme = "arplette",
     },
   },
   {
@@ -367,7 +372,6 @@ return {
             ["@lsp.typemod.enumMember.readonly.c"] = { link = "TSConstant" },
             ["@lsp.type.macro.c"] = { link = "TSConstant" },
             ["@type.builtin.c"] = { link = "TSType" },
-
           }
         end,
       },
