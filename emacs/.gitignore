@@ -1,0 +1,63 @@
+# Emacs temporary and backup files
+*~
+#*
+*.elc
+auto-save-list/
+.backups/
+.autosaves/
+
+# Package-related files
+elpa/
+straight/
+transient/
+package-quickstart.el
+
+# Cache and state files
+.cache/
+.bookmarks
+.places
+.recentf
+.savehist
+.url/
+.projectile.cache
+.projectile.bookmarks
+.abbrev_defs
+.tramp_history
+.tramp_persistency
+.session
+.network-security
+.persp-confs
+.persp-state
+.acomplete
+.company-statistics-cache
+.corfu-history
+.consult-history
+.eshell/
+.mc-lists.el
+.smex-items
+
+# Undo and history files
+undo-tree-hist/
+.history
+.persp-confs
+.persp-state
+
+# Org-mode specific
+.org-id-locations
+.org-roam.db
+
+# Other temporary or generated files
+*.log
+*.bak
+*.tmp
+*.elc
+*.eln
+*.eln-cache/
+*.dir-locals.el
+*.dir-locals-2.el
+
+# tree-sitter
+tree-sitter/
+history
+projectile-bookmarks.eld
+custom-vars.el
