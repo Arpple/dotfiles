@@ -88,7 +88,12 @@
 ;; General Keybinds
 (use-package general
   :config
-  ;; (general-evil-setup) ;; <- evil
+  (general-evil-setup) ;; <- evil
+	(general-def 'normal
+		"g r" 'xref-find-references
+		)
+
+
   ;; Set up 'C-SPC' as the leader key
   (general-create-definer start/leader-keys
     :states '(normal visual motion) ;; <- evil
@@ -165,10 +170,12 @@
 		"w d" '(delete-window :wk "Delete window"))
   )
 
+
+
 ;; Fix general.el leader key not working instantly in messages buffer with evil mode
 ;; (use-package emacs
 ;;   :ghook ('after-init-hook
-;;           (lambda (&rest _)
+;;           (lambd  xa (&rest _)
 ;;             (when-let ((messages-buffer (get-buffer "*Messages*")))
 ;;               (with-current-buffer messages-buffer
 ;;                 (evil-normalize-keymaps))))
@@ -176,10 +183,13 @@
 ;;   )
 
 ;; Theme
-(use-package gruvbox-theme
-  :config
-  (setq gruvbox-bold-constructs t)
-  (load-theme 'gruvbox-dark-medium t)) ;; We need to add t to trust this package
+;; (use-package gruvbox-theme
+;;   :config
+;;   (setq gruvbox-bold-constructs t)
+;;   (load-theme 'gruvbox-dark-medium t)) ;; We need to add t to trust this package
+
+(add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
+(load-theme 'arplette t)
 
 (set-face-attribute 'default nil
                     ;;:font "SauceCodeProNerdFontMono" ;; Set your favorite type of font or download JetBrains Mono
@@ -221,8 +231,12 @@
 ;; Eglot
 (use-package eglot
   :ensure nil ;; Don't install eglot because it's now built-in
-  :hook ((c-mode c++-mode ;; Autostart lsp servers for a given mode
-                 lua-mode) ;; Lua-mode needs to be installed
+  :hook
+	((c-mode
+		c++-mode ;; Autostart lsp servers for a given mode
+		lua-mode
+		typescript-ts-mode
+		tsx-ts-mode) ;; Lua-mode needs to be installed
          . eglot-ensure)
   :custom
   ;; Good default
@@ -231,8 +245,8 @@
   (eglot-report-progress nil) ;; Disable LSP server logs (Don't show lsp messages at the bottom, java)
   ;; Manual lsp servers
   ;;:config
-  ;;(add-to-list 'eglot-server-programs
-  ;;             `(lua-mode . ("PATH_TO_THE_LSP_FOLDER/bin/lua-language-server" "-lsp"))) ;; Adds our lua lsp server to eglot's server list
+  (add-to-list 'eglot-server-programs
+              `((typescript-ts-mode tsx-ts-mode) . ("typescript-langauge-server" "--stdio")))
   )
 
 ;; flymake
@@ -567,9 +581,6 @@
   :hook
   ((prog-mode text-mode) . hl-line-mode)  ;; Enable in programming and text modes
   :config
-  ;; Customize the highlight face
-  (set-face-attribute 'hl-line nil
-                      :background "#3e4451")  ;; Subtle dark gray (adjust as needed)
   ;; Optional: Ensure highlight spans entire line width
   (setq hl-line-sticky-flag t)  ;; Highlight persists in inactive windows
   (setq global-hl-line-sticky-flag t))
@@ -579,3 +590,15 @@
 (setq gc-cons-threshold (* 2 1000 1000))
 ;; Increase the amount of data which Emacs reads from the process
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
+
+(use-package autothemer
+	:ensure t)
+
+
+(use-package paren-face
+	:ensure t
+	:hook
+	((emacs-lisp-mode lisp-mode prog-mode) . paren-face-mode)
+	:config
+	(setq paren-face-mode t)
+	)

@@ -1,0 +1,55 @@
+(require 'autothemer)
+
+(autothemer-deftheme
+ arplette "my theme"
+
+ ((((class color) (min-colors #xFFFFFF)))
+
+	(c-black "#000000")
+	(c-black2 "#222222")
+	(c-white "#ffffff")
+	(c-white2 "#999999")
+	(c-white3 "#888888")
+	(c-red "red2")
+	(c-green "#a4ff2e")
+	(c-green-bg "#345500")
+	(c-yellow "khaki")
+	(c-bright-yellow "yellow")
+	(c-orange "DarkOrange1")
+	(c-purple "magenta")
+	(c-cyan "cyan1")
+	(c-mint "#66efc4")
+	(c-mint-bg "#052f21")
+	)
+
+ ((default (:foreground c-white :background c-black))
+	(region (:background c-white2))
+	(mode-line (:background c-black2))
+	(hl-line (:background c-black2))
+	(dired-directory (:background c-black))
+
+	(paren-face (:foreground c-white3))
+	(parenthesis (:foreground c-white3))
+	(font-lock-bracket-face (:foreground c-white3))
+	(font-lock-delimiter-face (:foreground c-white3))
+	(font-lock-punctuation-face (:foreground c-white3))
+	(font-lock-keyword-face (:foreground c-red))
+	(font-lock-constant-face (:foreground c-orange))
+	(font-lock-string-face (:foreground c-yellow))
+	(font-lock-builtin-face (:foreground c-orange))
+	(font-lock-comment-face (:foreground c-bright-yellow))
+	(font-lock-function-call-face (:foreground c-white))
+	(font-lock-function-name-face (:foreground c-green :background c-green-bg))
+	(font-lock-variable-use-face (:foreground c-white))
+	(font-lock-variable-name-face (:foreground c-mint :background c-mint-bg))
+	(font-lock-type-face (:foreground c-cyan))
+
+	(flymake-error (:underline (:color c-red)))
+	(flymake-warning (:underline (:color c-bright-yellow)))
+	(eglot-diagnostic-tag-unnecessary-face (:underline (:color c-bright-yellow)))
+
+	(typescript-ts-jsx-tag-face (:foreground c-cyan))
+	(typescript-ts-jsx-attribute-face (:foreground c-orange))
+	))
+
+(provide-theme 'arplette)
