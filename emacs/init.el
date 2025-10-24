@@ -103,7 +103,7 @@
 
   (start/leader-keys
     "TAB" '(comment-line :wk "Comment lines")
-    "q" '(flymake-show-buffer-diagnostics :wk "Flymake buffer diagnostic")
+    ;;"q" '(flymake-show-buffer-diagnostics :wk "Flymake buffer diagnostic")
     "c" '(eat :wk "Eat terminal")
     "p" '(projectile-command-map :wk "Projectile")
 		"SPC" '(execute-extended-command :wk "Execute command")
@@ -168,6 +168,10 @@
 	(start/leader-keys
 		"w" '(:ignore t :wk "Window")
 		"w d" '(delete-window :wk "Delete window"))
+
+	(start/leader-keys
+		"q" '(:ignore t :wk "Quit")
+		"q q" '(evil-quit :wk "QUIT!"))
   )
 
 
@@ -192,8 +196,7 @@
 (load-theme 'arplette t)
 
 (set-face-attribute 'default nil
-                    ;;:font "SauceCodeProNerdFontMono" ;; Set your favorite type of font or download JetBrains Mono
-                    :height 120
+                    :font "SauceCodeProNerdFontMono-13" ;; Set your favorite type of font or download JetBrains Mono
                     :weight 'bold)
 ;; This sets the default font on all graphical frames created after restarting Emacs.
 ;; Does the same thing as 'set-face-attribute default' above, but emacsclient fonts
@@ -601,4 +604,8 @@
 	((emacs-lisp-mode lisp-mode prog-mode) . paren-face-mode)
 	:config
 	(setq paren-face-mode t)
+	)
+
+(use-package rainbow-mode
+	:ensure t
 	)
