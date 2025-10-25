@@ -61,3 +61,4 @@ tree-sitter/
 history
 projectile-bookmarks.eld
 custom-vars.el
+eln-cache/

@@ -2,8 +2,7 @@
 (require 'use-package-ensure) ;; Load use-package-always-ensure
 (setq use-package-always-ensure t) ;; Always ensures that a package is installed
 
-(setq package-archives '(("melpa" . "https://melpa.org/packages/") ;; Sets default package repositories
-                         ("org" . "https://orgmode.org/elpa/")
+(setq package-archives '(("melpa" . "https://melpa.org/packages/") ;; Sets default package repositories ("org" . "https://orgmode.org/elpa/")
                          ("elpa" . "https://elpa.gnu.org/packages/")
                          ("nongnu" . "https://elpa.nongnu.org/nongnu/"))) ;; For Eat Terminal
 
@@ -28,17 +27,20 @@
   ;;(dired-kill-when-opening-new-dired-buffer t) ;; Dired don't create new buffer
   ;;(recentf-mode t) ;; Enable recent file mode
 
-  ;;(global-visual-line-mode t)           ;; Enable truncated lines
+  (global-visual-line-mode nil)           ;; Enable truncated lines
   (display-line-numbers-type 'relative) ;; Relative line numbers
   (global-display-line-numbers-mode t)  ;; Display line numbers
+  (truncate-line nil)
 
   (mouse-wheel-progressive-speed nil) ;; Disable progressive speed when scrolling
   (scroll-margin 8)
 
+  (indent-tabs-mode t)
   (tab-width 2)
 
   (make-backup-files nil) ;; Stop creating ~ backup files
   (auto-save-default nil) ;; Stop creating # auto save files
+  (dired-kill-when-opening-new-dired-buffer t)
   :hook
   (prog-mode . (lambda () (hs-minor-mode t))) ;; Enable folding hide/show globally
   :config
@@ -67,10 +69,15 @@
   (evil-want-C-i-jump nil)      ;; Disables C-i jump
   (evil-undo-system 'undo-redo) ;; C-r to redo
   ;; Unmap keys in 'evil-maps. If not done, org-return-follows-link will not work
-  :bind (:map evil-motion-state-map
-              ("SPC" . nil)
-              ("RET" . nil)
-              ("TAB" . nil)))
+  :bind
+  (:map evil-motion-state-map
+        ("SPC" . nil)
+        ("RET" . nil)
+        ("TAB" . nil))
+
+  (:map evil-insert-state-map
+        ("C-SPC" . completion-at-point))
+  )
 
 (use-package evil-collection
   :after evil
@@ -78,6 +85,19 @@
   ;; Setting where to use evil-collection
   (setq evil-collection-mode-list '(dired ibuffer magit corfu vertico consult info))
   (evil-collection-init))
+
+(use-package evil-goggles
+  :ensure t
+  :custom
+  (evil-goggles-duration 0.075) ;; default is 0.200
+  :config
+  (evil-goggles-mode)
+
+  ;; optionally use diff-mode's faces; as a result, deleted text
+  ;; will be highlighed with `diff-removed` face which is typically
+  ;; some red color (as defined by the color theme)
+  ;; other faces such as `diff-added` will be used for other actions
+  (evil-goggles-use-diff-faces))
 
 (use-package evil-commentary
   :ensure t
@@ -89,9 +109,9 @@
 (use-package general
   :config
   (general-evil-setup) ;; <- evil
-	(general-def 'normal
-		"g r" 'xref-find-references
-		)
+  (general-def 'normal
+    "g r" 'xref-find-references
+    )
 
 
   ;; Set up 'C-SPC' as the leader key
@@ -104,18 +124,18 @@
   (start/leader-keys
     "TAB" '(comment-line :wk "Comment lines")
     ;;"q" '(flymake-show-buffer-diagnostics :wk "Flymake buffer diagnostic")
-    "c" '(eat :wk "Eat terminal")
+    "c" '(eat :wk "Cli (Eat terminal)")
     "p" '(projectile-command-map :wk "Projectile")
-		"SPC" '(execute-extended-command :wk "Execute command")
+    "SPC" '(execute-extended-command :wk "Execute command")
     )
-	
-	(start/leader-keys
-		"f" '(:ignore t :wk "File")
+
+  (start/leader-keys
+    "f" '(:ignore t :wk "File")
     "f f" '(find-file :wk "Find file")
     "f c" '((lambda () (interactive) (find-file "~/.config/emacs/init.el")) :wk "Find emacs Config")
     "f r" '(consult-recent-file :wk "Find Recent files")
     "f s" '(consult-fd :wk "File Search")
-		)
+    )
 
   (start/leader-keys
     "s" '(:ignore t :wk "Search")
@@ -123,8 +143,7 @@
     "s g" '(consult-ripgrep :wk "Search with ripgrep")
     "s b" '(consult-line :wk "Search Buffer")
     "s i" '(consult-imenu :wk "Search Imenu buffer locations") ;; This one is really cool
-)
-
+    )
 
   (start/leader-keys
     "b" '(:ignore t :wk "Buffers & Dired")
@@ -135,43 +154,62 @@
     "b p" '(previous-buffer :wk "Previous buffer")
     "b r" '(revert-buffer :wk "Reload buffer")
     "b v" '(dired :wk "Open dired")
-    "b j" '(dired-jump :wk "Dired jump to current"))
+    "b j" '(dired-jump :wk "Dired jump to current")
+    )
 
   (start/leader-keys
-    "e" '(:ignore t :wk "Languages")
-    "e e" '(eglot-reconnect :wk "Eglot Reconnect")
-    "e d" '(eldoc-doc-buffer :wk "Eldoc Buffer")
-    "e f" '(eglot-format :wk "Eglot Format")
-    "e l" '(consult-flymake :wk "Consult Flymake")
-    "e r" '(eglot-rename :wk "Eglot Rename")
-    "e i" '(xref-find-definitions :wk "Find definition")
-    "e v" '(:ignore t :wk "Elisp")
-    "e v b" '(eval-buffer :wk "Evaluate elisp in buffer")
-    "e v r" '(eval-region :wk "Evaluate elisp in region"))
+    "e" '(treemacs :wk "Explorer (Treemacs)"))
+
+  (start/leader-keys
+    "t" '(:ignore t :wk "Toggle")
+    "t t" '(toggle-truncate-lines :wk "Truncate (Line wrap)")
+    "t h" '(treemacs-hide-gitignored-files-mode :wk "Hidden gitignored file"))
+
+  ;; (start/leader-keys
+  ;;   "e" '(:ignore t :wk "Languages")
+  ;;   "e e" '(eglot-reconnect :wk "Eglot Reconnect")
+  ;;   "e d" '(eldoc-doc-buffer :wk "Eldoc Buffer")
+  ;;   "e f" '(eglot-format :wk "Eglot Format")
+  ;;   "e l" '(consult-flymake :wk "Consult Flymake")
+  ;;   "e r" '(eglot-rename :wk "Eglot Rename")
+  ;;   "e i" '(xref-find-definitions :wk "Find definition")
+  ;;   "e v" '(:ignore t :wk "Elisp")
+  ;;   "e v b" '(eval-buffer :wk "Evaluate elisp in buffer")
+  ;;   "e v r" '(eval-region :wk "Evaluate elisp in region")
+  ;;   )
 
   (start/leader-keys
     "g" '(:ignore t :wk "Git")
-    "g g" '(magit-status :wk "Magit status"))
+    "g g" '(magit-status :wk "Magit status")
+    )
 
   (start/leader-keys
     "h" '(:ignore t :wk "Help") ;; To get more help use C-h commands (describe variable, function, etc.)
     "h q" '(save-buffers-kill-emacs :wk "Quit Emacs and Daemon")
     "h r" '((lambda () (interactive)
               (load-file "~/.config/emacs/init.el"))
-            :wk "Reload Emacs config"))
+            :wk "Reload Emacs config")
+    )
+
+  ;; (start/leader-keys
+  ;;   "t" '(:ignore t :wk "Toggle")
+  ;;   "t t" '(toggle-truncate-lines :wk "Toggle truncated lines (wrap)")
+  ;;   "t l" '(display-line-numbers-mode :wk "Toggle line numbers")
+  ;;   )
 
   (start/leader-keys
-    "t" '(:ignore t :wk "Toggle")
-    "t t" '(visual-line-mode :wk "Toggle truncated lines (wrap)")
-    "t l" '(display-line-numbers-mode :wk "Toggle line numbers"))
+    "w" '(:ignore t :wk "Window")
+    "w d" '(delete-window :wk "Delete window")
+    "w h" '(evil-window-left :wk "Move left")
+    "w j" '(evil-window-down :wk "Move down")
+    "w k" '(evil-window-up :wk "Move up")
+    "w l" '(evil-window-right :wk "Move right")
+    )
 
-	(start/leader-keys
-		"w" '(:ignore t :wk "Window")
-		"w d" '(delete-window :wk "Delete window"))
-
-	(start/leader-keys
-		"q" '(:ignore t :wk "Quit")
-		"q q" '(evil-quit :wk "QUIT!"))
+  (start/leader-keys
+    "q" '(:ignore t :wk "Quit")
+    "q q" '(evil-quit :wk "QUIT!")
+    )
   )
 
 
@@ -204,6 +242,9 @@
 
 ;;(add-to-list 'default-frame-alist '(font . "JetBrains Mono")) ;; Set your favorite font
 (setq-default line-spacing 0.12)
+(setq-default sideline-truncate nil)
+(setq-default truncate-partial-width-windows nil)
+(setq-default truncate-lines nil)
 
 ;; Doom Modeline
 (use-package doom-modeline
@@ -229,18 +270,18 @@
   ;; (projectile-auto-discover nil) ;; Disable auto search for better startup times ;; Search with a keybind
   (projectile-run-use-comint-mode t) ;; Interactive run dialog when running projects inside emacs (like giving input)
   (projectile-switch-project-action #'projectile-dired) ;; Open dired when switching to a project
+  (setq projectile-completion-system 'vertico)
   (projectile-project-search-path '("~/projects/" "~/work/" ("~/github" . 1)))) ;; . 1 means only search the first subdirectory level for projects
 
 ;; Eglot
 (use-package eglot
   :ensure nil ;; Don't install eglot because it's now built-in
   :hook
-	((c-mode
-		c++-mode ;; Autostart lsp servers for a given mode
-		lua-mode
-		typescript-ts-mode
-		tsx-ts-mode) ;; Lua-mode needs to be installed
-         . eglot-ensure)
+  ((c-mode
+    c++-mode ;; Autostart lsp servers for a given mode
+    lua-mode
+    typescript-ts-mode
+    tsx-ts-mode) . eglot-ensure)
   :custom
   ;; Good default
   (eglot-events-buffer-size 0) ;; No event buffers (LSP server logs)
@@ -281,6 +322,8 @@
         (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
         (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
 
+(setq treesit-font-lock-level 4)
+
 (defun start/install-treesit-grammars ()
   "Install missing treesitter grammars"
   (interactive)
@@ -312,6 +355,7 @@
 (use-package go-ts-mode :ensure nil :mode "\\.go\\'")
 (use-package go-mod-ts-mode :ensure nil :mode "\\.mod\\'")
 (use-package rust-ts-mode :ensure nil :mode "\\.rs\\'")
+(use-package typescript-ts-mode :ensure nil :mode "\\.ts\\'")
 (use-package tsx-ts-mode :ensure nil :mode "\\.tsx\\'")
 
 ;;-- Org Mode
@@ -431,7 +475,12 @@
 ;;-- Vertico
 (use-package vertico
   :init
-  (vertico-mode))
+  (vertico-mode)
+  :bind
+  (:map vertico-map
+        ("C-j" . vertico-next)
+        ("C-k" . vertico-previous))
+  )
 
 (savehist-mode) ;; Enables save history mode
 
@@ -500,10 +549,14 @@
    ;;;; 5. No project support
   ;; (setq consult-project-function nil)
 
-	(define-key minibuffer-local-map (kbd "C-j") 'next-line)
+  (define-key minibuffer-local-map (kbd "C-j") 'next-line)
   (define-key minibuffer-local-map (kbd "C-k") 'previous-line)
-	(define-key minibuffer-local-filename-completion-map (kbd "C-j") #'next-line)
+  (define-key minibuffer-local-filename-completion-map (kbd "C-j") #'next-line)
   (define-key minibuffer-local-filename-completion-map (kbd "C-k") #'previous-line)
+  (define-key minibuffer-local-completion-map (kbd "C-j") #'next-line)
+  (define-key minibuffer-local-completion-map (kbd "C-k") #'previous-line)
+  (define-key completion-list-mode-map (kbd "C-j") #'next-line)
+  (define-key completion-list-mode-map (kbd "C-k") #'previous-line)
   )
 
 ;;-- Help
@@ -552,32 +605,6 @@
   ;; Optional: For Elisp files, use default indent (avoids misalignment)
   (setq editorconfig-lisp-use-default-indent t))
 
-;; Pulsar = visual feedback
-(use-package pulsar
-  :ensure t
-  :config
-  ;; Enable global mode for pulsing
-  (pulsar-global-mode 1)
-  ;; Customize pulse: Adjust face, time, and width for subtlety
-  (setq pulsar-face 'pulsar-yellow)  ;; Or 'pulsar-yellow, etc.
-  (setq pulsar-pulse-functions
-        '(recenter-top-bottom
-          ;; Evil-specific for delete, yank, paste
-          evil-delete
-          evil-yank
-          evil-paste-before
-          evil-paste-after
-          ;; Other useful ones (like in Doom)
-          evil-jump-item
-          evil-goto-definition))
-  ;; Optional: Pulse on save or other hooks
-  (add-hook 'after-save-hook #'pulsar-reveal-entry)
-  ;; Delay and iterations for the pulse effect
-  (setq pulsar-delay 0.01)
-  (setq pulsar-iterations 10)
-  (setq pulsar-radius 20))  ;; Pulse radius in characters
-
-
 ;;-- hl-line
 (use-package hl-line
   :ensure nil  ;; Built-in, no installation needed
@@ -595,17 +622,121 @@
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
 (use-package autothemer
-	:ensure t)
+  :ensure t)
 
 
 (use-package paren-face
-	:ensure t
-	:hook
-	((emacs-lisp-mode lisp-mode prog-mode) . paren-face-mode)
-	:config
-	(setq paren-face-mode t)
-	)
+  :ensure t
+  :hook
+  ((emacs-lisp-mode lisp-mode prog-mode) . paren-face-mode)
+  :config
+  (setq paren-face-mode t)
+  )
 
 (use-package rainbow-mode
-	:ensure t
-	)
+  :ensure t
+  )
+
+(use-package whitespace-mode
+  :ensure nil
+  :hook
+  ((prog-mode text-mode) . whitespace-mode)
+  :custom
+  (whitespace-style '(face trailing))
+)
+
+(use-package treemacs
+  :ensure t
+  :defer t
+  :init
+  (with-eval-after-load 'winum
+    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
+  :config
+  (progn
+    (setq treemacs-buffer-name-function            #'treemacs-default-buffer-name
+          treemacs-buffer-name-prefix              " *Treemacs-Buffer-"
+          treemacs-collapse-dirs                   (if treemacs-python-executable 3 0)
+          treemacs-deferred-git-apply-delay        0.5
+          treemacs-directory-name-transformer      #'identity
+          treemacs-display-in-side-window          t
+          treemacs-eldoc-display                   'simple
+          treemacs-file-event-delay                2000
+          treemacs-file-extension-regex            treemacs-last-period-regex-value
+          treemacs-file-follow-delay               0.2
+          treemacs-file-name-transformer           #'identity
+          treemacs-follow-after-init               t
+          treemacs-expand-after-init               t
+          treemacs-find-workspace-method           'find-for-file-or-pick-first
+          treemacs-git-command-pipe                ""
+          treemacs-goto-tag-strategy               'refetch-index
+          treemacs-header-scroll-indicators        '(nil . "^^^^^^")
+          treemacs-hide-dot-git-directory          t
+          treemacs-indentation                     2
+          treemacs-indentation-string              " "
+          treemacs-is-never-other-window           nil
+          treemacs-max-git-entries                 5000
+          treemacs-missing-project-action          'ask
+          treemacs-move-files-by-mouse-dragging    t
+          treemacs-move-forward-on-expand          nil
+          treemacs-no-png-images                   nil
+          treemacs-no-delete-other-windows         t
+          treemacs-project-follow-cleanup          nil
+          treemacs-persist-file                    (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+          treemacs-position                        'left
+          treemacs-read-string-input               'from-child-frame
+          treemacs-recenter-distance               0.1
+          treemacs-recenter-after-file-follow      nil
+          treemacs-recenter-after-tag-follow       nil
+          treemacs-recenter-after-project-jump     'always
+          treemacs-recenter-after-project-expand   'on-distance
+          treemacs-litter-directories              '("/node_modules" "/.venv" "/.cask")
+          treemacs-project-follow-into-home        nil
+          treemacs-show-cursor                     nil
+          treemacs-show-hidden-files               t
+          treemacs-silent-filewatch                nil
+          treemacs-silent-refresh                  nil
+          treemacs-sorting                         'alphabetic-asc
+          treemacs-select-when-already-in-treemacs 'move-back
+          treemacs-space-between-root-nodes        t
+          treemacs-tag-follow-cleanup              t
+          treemacs-tag-follow-delay                1.5
+          treemacs-text-scale                      -0.1
+          treemacs-user-mode-line-format           nil
+          treemacs-user-header-line-format         nil
+          treemacs-wide-toggle-width               70
+          treemacs-width                           30
+          treemacs-width-increment                 1
+          treemacs-width-is-initially-locked       t
+          treemacs-workspace-switch-cleanup        nil)
+
+    ;; The default width and height of the icons is 22 pixels. If you are
+    ;; using a Hi-DPI display, uncomment this to double the icon size.
+    ;;(treemacs-resize-icons 44)
+
+    (treemacs-follow-mode t)
+    (treemacs-filewatch-mode t)
+    (treemacs-fringe-indicator-mode 'always)
+
+    (pcase (cons (not (null (executable-find "git")))
+                 (not (null treemacs-python-executable)))
+      (`(t . t)
+       (treemacs-git-mode 'deferred))
+      (`(t . _)
+       (treemacs-git-mode 'simple)))
+
+    (treemacs-hide-gitignored-files-mode nil))
+  )
+
+(use-package treemacs-evil
+  :after (treemacs evil)
+  :ensure t)
+
+(use-package treemacs-projectile
+  :after (treemacs projectile)
+  :ensure t)
+
+(use-package treemacs-magit
+  :after (treemacs magit)
+  :ensure t)
+
+(load-file "~/.emacs-local.el")

@@ -96,6 +96,11 @@
 	(marginalia-number (:inherit 'font-lock-number-face))
 	(marginalia-size (:inherit 'font-lock-number-face))
 
+  (treemacs-directory-face (:foreground c-green :background c-bg))
+  (treemacs-git-modified-face (:foreground c-yellow :background c-bg))
+  (treemacs-git-ignored-face (:foreground c-text3))
+  (treemacs-git-untracked-face (:foreground c-orange-light))
+
 	(parenthesis (:foreground c-text3))
 	(font-lock-bracket-face (:inherit 'parenthesis))
 	(font-lock-delimiter-face (:inherit 'parenthesis))
