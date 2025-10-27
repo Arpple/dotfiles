@@ -33,6 +33,7 @@
 	(highlight (:background c-bg2))
 	(line-number (:foreground c-text4 :background c-bg2))
 	(line-number-current-line (:foreground c-text :background c-bg3))
+	(whitespace-tab (:foreground c-text4))
 
 	(nerd-icons-blue (:foreground c-cyan))
 	;; (nerd-icons-blue-alt)
@@ -100,6 +101,7 @@
   (treemacs-git-modified-face (:foreground c-yellow :background c-bg))
   (treemacs-git-ignored-face (:foreground c-text3))
   (treemacs-git-untracked-face (:foreground c-orange-light))
+  (treemacs-root-face (:foreground c-orange :underline t))
 
 	(parenthesis (:foreground c-text3))
 	(font-lock-bracket-face (:inherit 'parenthesis))

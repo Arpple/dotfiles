@@ -8,6 +8,26 @@
 
 (setq package-quickstart t) ;; For blazingly fast startup times, this line makes startup miles faster
 
+(defun open-note-file ()
+  "Open the ~/temp.md file"
+  (interactive)
+  (find-file "~/temp.md"))
+
+(defun kill-other-buffers ()
+  "Kill all buffers but the current one.
+  Doesn't mess with special buffers (buffers not associated with a file)."
+  (interactive)
+  (dolist (buffer (buffer-list))
+    (unless (or (eql buffer (current-buffer))
+                (not (buffer-file-name buffer)))
+      (kill-buffer buffer))))
+
+(defun unindent-region-or-line ()
+  "Unindent the selected region or the current line by one tab width."
+  (interactive)
+  (let ((beg (if (use-region-p) (region-beginning) (line-beginning-position)))
+        (end (if (use-region-p) (region-end) (line-end-position))))
+    (indent-rigidly beg end (- tab-width))))
 
 ;; defaults
 (use-package emacs
@@ -18,7 +38,8 @@
   ;;(inhibit-startup-screen t)  ;; Disable welcome screen
 
   (delete-selection-mode t)   ;; Select text and delete it by typing.
-  (electric-indent-mode nil)  ;; Turn off the weird indenting that Emacs does by default.
+  (electric-indent-mode t)  ;; Turn off the weird indenting that Emacs does by default.
+  (electric-indent-inhibit t)  ;; Turn off the weird indenting that Emacs does by default.
   (electric-pair-mode t)      ;; Turns on automatic parens pairing
 
   (blink-cursor-mode nil)     ;; Don't blink cursor
@@ -30,17 +51,20 @@
   (global-visual-line-mode nil)           ;; Enable truncated lines
   (display-line-numbers-type 'relative) ;; Relative line numbers
   (global-display-line-numbers-mode t)  ;; Display line numbers
-  (truncate-line nil)
+  ;; (truncate-lines t)
 
   (mouse-wheel-progressive-speed nil) ;; Disable progressive speed when scrolling
   (scroll-margin 8)
 
   (indent-tabs-mode t)
   (tab-width 2)
+  (evil-shift-width 2)
 
   (make-backup-files nil) ;; Stop creating ~ backup files
   (auto-save-default nil) ;; Stop creating # auto save files
   (dired-kill-when-opening-new-dired-buffer t)
+  (split-height-threshold nil)
+  (split-width-threshold 0)
   :hook
   (prog-mode . (lambda () (hs-minor-mode t))) ;; Enable folding hide/show globally
   :config
@@ -68,6 +92,7 @@
   (evil-want-C-u-scroll t)      ;; Set C-u to scroll up
   (evil-want-C-i-jump nil)      ;; Disables C-i jump
   (evil-undo-system 'undo-redo) ;; C-r to redo
+  (evil-auto-indent t)
   ;; Unmap keys in 'evil-maps. If not done, org-return-follows-link will not work
   :bind
   (:map evil-motion-state-map
@@ -76,8 +101,9 @@
         ("TAB" . nil))
 
   (:map evil-insert-state-map
-        ("C-SPC" . completion-at-point))
-  )
+        ("C-SPC" . completion-at-point)
+        ("TAB" . tab-to-tab-stop)
+        ("<backtab>" . unindent-region-or-line)))
 
 (use-package evil-collection
   :after evil
@@ -105,6 +131,11 @@
   :config
   (evil-commentary-mode 1))
 
+(use-package evil-surround
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
+
 ;; General Keybinds
 (use-package general
   :config
@@ -124,7 +155,6 @@
   (start/leader-keys
     "TAB" '(comment-line :wk "Comment lines")
     ;;"q" '(flymake-show-buffer-diagnostics :wk "Flymake buffer diagnostic")
-    "c" '(eat :wk "Cli (Eat terminal)")
     "p" '(projectile-command-map :wk "Projectile")
     "SPC" '(execute-extended-command :wk "Execute command")
     )
@@ -155,10 +185,23 @@
     "b r" '(revert-buffer :wk "Reload buffer")
     "b v" '(dired :wk "Open dired")
     "b j" '(dired-jump :wk "Dired jump to current")
+    "b x" '(open-note-file :wk "Note file")
+    "b o" '(kill-other-buffers :wk "kill Other buffer")
     )
 
   (start/leader-keys
     "e" '(treemacs :wk "Explorer (Treemacs)"))
+
+  (start/leader-keys
+    "c" '(:ignore t :wk "Code")
+    "c r" '(eglot-rename :wk "Rename")
+    "c d" '(eglot-doc-buffer :wk "Document")
+    )
+
+  (start/leader-keys
+    "o" '(:ignore t :wk "Open")
+    "o t" '(eat :wk "Terminal (Eat)")
+    )
 
   (start/leader-keys
     "t" '(:ignore t :wk "Toggle")
@@ -426,7 +469,7 @@
 
   ;; Enable indentation+completion using the TAB key.
   ;; `completion-at-point' is often bound to M-TAB.
-  (tab-always-indent 'complete)
+  (tab-always-indent t)
 
   (corfu-preview-current nil) ;; Don't insert completion without confirmation
   ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
@@ -642,7 +685,10 @@
   :hook
   ((prog-mode text-mode) . whitespace-mode)
   :custom
-  (whitespace-style '(face trailing))
+  (whitespace-style '(face tabs tab-mark trailing))
+  (whitespace-display-mappings '((tab-mark 9 [124 9] [92 9])))
+  :config
+  (global-whitespace-mode)
 )
 
 (use-package treemacs
@@ -680,7 +726,7 @@
           treemacs-move-forward-on-expand          nil
           treemacs-no-png-images                   nil
           treemacs-no-delete-other-windows         t
-          treemacs-project-follow-cleanup          nil
+          treemacs-project-follow-cleanup          t
           treemacs-persist-file                    (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
           treemacs-position                        'left
           treemacs-read-string-input               'from-child-frame
@@ -704,7 +750,7 @@
           treemacs-user-mode-line-format           nil
           treemacs-user-header-line-format         nil
           treemacs-wide-toggle-width               70
-          treemacs-width                           30
+          treemacs-width                           35
           treemacs-width-increment                 1
           treemacs-width-is-initially-locked       t
           treemacs-workspace-switch-cleanup        nil)
@@ -727,6 +773,8 @@
     (treemacs-hide-gitignored-files-mode nil))
   )
 
+(add-hook 'treemacs-mode-hook (lambda () (setq-local truncate-lines t)))
+
 (use-package treemacs-evil
   :after (treemacs evil)
   :ensure t)
@@ -737,6 +785,9 @@
 
 (use-package treemacs-magit
   :after (treemacs magit)
+  :ensure t)
+
+(use-package markdown-mode
   :ensure t)
 
 (load-file "~/.emacs-local.el")
