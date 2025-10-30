@@ -100,6 +100,11 @@
         ("RET" . nil)
         ("TAB" . nil))
 
+  (:map evil-normal-state-map
+        ("RET" . nil)
+        ("TAB" . nil)
+        ("K" . eldoc-doc-buffer))
+
   (:map evil-insert-state-map
         ("C-SPC" . completion-at-point)
         ("TAB" . tab-to-tab-stop)
@@ -195,7 +200,7 @@
   (start/leader-keys
     "c" '(:ignore t :wk "Code")
     "c r" '(eglot-rename :wk "Rename")
-    "c d" '(eglot-doc-buffer :wk "Document")
+    "c d" '(eldoc-doc-buffer :wk "Document")
     )
 
   (start/leader-keys
@@ -232,6 +237,9 @@
     "h r" '((lambda () (interactive)
               (load-file "~/.config/emacs/init.el"))
             :wk "Reload Emacs config")
+    "h v" '(helpful-variable :wk "Variable")
+    "h h" '(helpful-at-point :wk "Help at point")
+    "h c" '(describe-char :wk "Char")
     )
 
   ;; (start/leader-keys
@@ -436,13 +444,26 @@
 ;;-- Magit
 (use-package magit
   :defer
-  :custom (magit-diff-refine-hunk (quote all)) ;; Shows inline diff
-  :config (define-key transient-map (kbd "<escape>") 'transient-quit-one) ;; Make escape quit magit prompts
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-fullframe-status-v1)
+  (magit-bury-buffer-function #'magit-restore-window-configuration)
+  :config
+  (define-key transient-map (kbd "<escape>") 'transient-quit-one) ;; Make escape quit magit prompts
+  ;; Doom-like section visibility
+  (magit-add-section-hook 'magit-status-sections-hook
+                          'magit-insert-unpushed-to-upstream-or-recent
+                          'magit-insert-unpushed-to-pushremote t)
   )
 
 (use-package diff-hl
   :hook ((dired-mode         . diff-hl-dired-mode-unless-remote)
+         (magit-pre-refresh . diff-hl-magit-pre-refresh)
          (magit-post-refresh . diff-hl-magit-post-refresh))
+  :config
+  (global-diff-hl-mode)
+  (diff-hl-flydiff-mode)
+  (unless (display-graphic-p)
+    (diff-hl-margin-mode))
   :init (global-diff-hl-mode))
 
 ;;-- Corfu
@@ -789,5 +810,19 @@
 
 (use-package markdown-mode
   :ensure t)
+
+(use-package eldoc
+  :init
+  (global-eldoc-mode))
+
+;; === Transient (popup interface) - Doom uses level 3+
+(use-package transient
+  :ensure t
+  :custom
+  (transient-default-level 5)
+  (transient-enable-popup-navigation t)
+  :config
+  ;; Show more commands in popups
+  (transient-bind-q-to-quit))
 
 (load-file "~/.emacs-local.el")

@@ -34,6 +34,7 @@
 	(line-number (:foreground c-text4 :background c-bg2))
 	(line-number-current-line (:foreground c-text :background c-bg3))
 	(whitespace-tab (:foreground c-text4))
+	(whitespace-trailing (:background c-bg4))
 
 	(nerd-icons-blue (:foreground c-cyan))
 	;; (nerd-icons-blue-alt)
@@ -127,6 +128,9 @@
 
 	(typescript-ts-jsx-tag-face (:foreground c-cyan))
 	(typescript-ts-jsx-attribute-face (:foreground c-orange-light))
+
+	(markdown-bold-face (:foreground c-orange-light))
+	(markdown-code-face (:foreground c-orange))
 	))
 
 (provide-theme 'arplette)
