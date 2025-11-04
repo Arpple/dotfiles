@@ -103,7 +103,10 @@
   (:map evil-normal-state-map
         ("RET" . nil)
         ("TAB" . nil)
-        ("K" . eldoc-doc-buffer))
+        ("K" . eldoc-doc-buffer)
+        ("M-l" . centaur-tabs-forward)
+        ("M-h" . centaur-tabs-backward)
+        )
 
   (:map evil-insert-state-map
         ("C-SPC" . completion-at-point)
@@ -255,6 +258,8 @@
     "w j" '(evil-window-down :wk "Move down")
     "w k" '(evil-window-up :wk "Move up")
     "w l" '(evil-window-right :wk "Move right")
+    "w v" '(evil-window-vsplit :wk "Vertical split")
+    "w s" '(evil-window-split :wk "Horizontal split")
     )
 
   (start/leader-keys
@@ -449,6 +454,10 @@
   (magit-bury-buffer-function #'magit-restore-window-configuration)
   :config
   (define-key transient-map (kbd "<escape>") 'transient-quit-one) ;; Make escape quit magit prompts
+  (defun my/magit-commit-fullframe ()
+    (when (derived-mode-p 'magit-status-mode 'magit-log-mode 'magit-diff-mode)
+      (delete-other-windows)))
+  (add-hook 'magit-commit-mode-hook #'my/magit-commit-fullframe)
   ;; Doom-like section visibility
   (magit-add-section-hook 'magit-status-sections-hook
                           'magit-insert-unpushed-to-upstream-or-recent
@@ -824,5 +833,51 @@
   :config
   ;; Show more commands in popups
   (transient-bind-q-to-quit))
+
+(use-package centaur-tabs
+  :demand t
+  :hook
+  (dired-mode . centaur-tabs-local-mode)
+  (treemacs-mode . centaur-tabs-local-mode)
+  (dashboard-mode . centaur-tabs-local-mode)
+  :init
+  (setq centaur-tabs-enable-key-bindings t)
+
+  :config
+  (setq centaur-tabs-style                "box"
+        centaur-tabs-height               27
+        centaur-tabs-set-icons            t
+        centaur-tabs-icon-type            'nerd-icons
+        centaur-tabs-gray-out-icons       'buffer
+        centaur-tabs-set-bar              'under
+        x-underline-at-descent-line       t
+        centaur-tabs-set-modified-marker  t
+        centaur-tabs-modified-marker      "•"
+        centaur-tabs-label-fixed-length   25
+        centaur-tabs-excluded-prefixes '("*"
+                                         "magit")
+        )
+
+  ;; (centaur-tabs-group-by-projectile-project)
+  (setq centaur-tabs-hide-tabs-hooks '(custom-centaur-tabs-hide-tab))
+
+  (defun custom-centaur-tabs-hide-tab (x)
+    "Do no to show buffer X in tabs."
+    (let ((name (format "%s" x)))
+      (or
+       ;; Buffer name not match below blacklist.
+       (string-prefix-p "*" name)
+
+       ;; Is not magit buffer.
+       (and (string-prefix-p "magit" name)
+            (not (file-name-extension name)))
+      )))
+
+  (centaur-tabs-headline-match)
+  (centaur-tabs-mode t)
+
+  :bind
+  ("C-[" . centaur-tabs-backward)
+  ("C-]" . centaur-tabs-forward))
 
 (load-file "~/.emacs-local.el")

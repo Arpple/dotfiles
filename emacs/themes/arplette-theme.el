@@ -104,6 +104,16 @@
   (treemacs-git-untracked-face (:foreground c-orange-light))
   (treemacs-root-face (:foreground c-orange :underline t))
 
+  (tab-line (:background c-bg2 :font "Sans Serif" :weight 'bold :height 0.9))
+  (centaur-tabs-selected (:foreground c-green :background c-green-dark))
+  (centaur-tabs-selected-modified (:foreground c-orange :background c-green-dark))
+  (centaur-tabs-unselected (:foreground c-text2 :background c-bg3))
+  (centaur-tabs-unselected-modified (:foreground c-orange :background c-bg3))
+
+  (magit-branch-current (:foreground c-cyan))
+  (magit-branch-local (:foreground c-cyan))
+  (magit-branch-remote (:foreground c-green))
+
 	(parenthesis (:foreground c-text3))
 	(font-lock-bracket-face (:inherit 'parenthesis))
 	(font-lock-delimiter-face (:inherit 'parenthesis))
