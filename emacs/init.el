@@ -163,8 +163,8 @@
   (start/leader-keys
     "TAB" '(comment-line :wk "Comment lines")
     ;;"q" '(flymake-show-buffer-diagnostics :wk "Flymake buffer diagnostic")
-    "p" '(projectile-command-map :wk "Projectile")
     "SPC" '(execute-extended-command :wk "Execute command")
+    "/" '(consult-ripgrep :wk "Search with ripgrep")
     )
 
   (start/leader-keys
@@ -214,20 +214,8 @@
   (start/leader-keys
     "t" '(:ignore t :wk "Toggle")
     "t t" '(toggle-truncate-lines :wk "Truncate (Line wrap)")
-    "t h" '(treemacs-hide-gitignored-files-mode :wk "Hidden gitignored file"))
-
-  ;; (start/leader-keys
-  ;;   "e" '(:ignore t :wk "Languages")
-  ;;   "e e" '(eglot-reconnect :wk "Eglot Reconnect")
-  ;;   "e d" '(eldoc-doc-buffer :wk "Eldoc Buffer")
-  ;;   "e f" '(eglot-format :wk "Eglot Format")
-  ;;   "e l" '(consult-flymake :wk "Consult Flymake")
-  ;;   "e r" '(eglot-rename :wk "Eglot Rename")
-  ;;   "e i" '(xref-find-definitions :wk "Find definition")
-  ;;   "e v" '(:ignore t :wk "Elisp")
-  ;;   "e v b" '(eval-buffer :wk "Evaluate elisp in buffer")
-  ;;   "e v r" '(eval-region :wk "Evaluate elisp in region")
-  ;;   )
+    "t h" '(treemacs-hide-gitignored-files-mode :wk "Hidden gitignored file")
+    )
 
   (start/leader-keys
     "g" '(:ignore t :wk "Git")
@@ -245,11 +233,11 @@
     "h c" '(describe-char :wk "Char")
     )
 
-  ;; (start/leader-keys
-  ;;   "t" '(:ignore t :wk "Toggle")
-  ;;   "t t" '(toggle-truncate-lines :wk "Toggle truncated lines (wrap)")
-  ;;   "t l" '(display-line-numbers-mode :wk "Toggle line numbers")
-  ;;   )
+  (start/leader-keys
+    "t" '(:ignore t :wk "Toggle")
+    "t t" '(toggle-truncate-lines :wk "Toggle truncated lines (wrap)")
+    "t l" '(display-line-numbers-mode :wk "Toggle line numbers")
+    )
 
   (start/leader-keys
     "w" '(:ignore t :wk "Window")
@@ -265,6 +253,14 @@
   (start/leader-keys
     "q" '(:ignore t :wk "Quit")
     "q q" '(evil-quit :wk "QUIT!")
+    )
+
+  (start/leader-keys
+    "p" '(:ignore t :wk "Project")
+    "p a" '(treemacs-add-project-to-workspace :wk "Add to workspace")
+    "p d" '(treemacs-remove-project-from-workspace :wk "Delete from workspace")
+    "p p" '(projectile-switch-project :wk "open Project")
+    "p f" '(projectile-find-file :wk "Find file")
     )
   )
 
@@ -404,6 +400,7 @@
         (json-mode . json-ts-mode)
         (typescript-mode . typescript-ts-mode)
         (conf-toml-mode . toml-ts-mode)
+        (yaml-mode . yaml-ts-mode)
         ))
 
 ;; Or if there is no built in mode
@@ -413,6 +410,13 @@
 (use-package rust-ts-mode :ensure nil :mode "\\.rs\\'")
 (use-package typescript-ts-mode :ensure nil :mode "\\.ts\\'")
 (use-package tsx-ts-mode :ensure nil :mode "\\.tsx\\'")
+(use-package yaml-ts-mode
+  :ensure nil
+  :mode ("\\.ya?ml\\'" . yaml-ts-mode)
+  :custom
+  (yaml-ts-indent-offset 2)
+  :config
+  (add-to-list 'major-mode-remap-alist '(yaml-mode . yaml-ts-mode)))
 
 ;;-- Org Mode
 (use-package org
@@ -879,5 +883,10 @@
   :bind
   ("C-[" . centaur-tabs-backward)
   ("C-]" . centaur-tabs-forward))
+
+(use-package yaml-mode
+  :mode ("\\.ya?ml\\'" . yaml-mode)
+  :hook (yaml-mode . (lambda () (setq tab-width 2))))  ; YAML convention: 2 spaces
+
 
 (load-file "~/.emacs-local.el")
