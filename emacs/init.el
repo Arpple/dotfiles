@@ -888,5 +888,7 @@
   :mode ("\\.ya?ml\\'" . yaml-mode)
   :hook (yaml-mode . (lambda () (setq tab-width 2))))  ; YAML convention: 2 spaces
 
+(use-package restclient
+  :mode ("\\.http\\'" . restclient-mode))
 
 (load-file "~/.emacs-local.el")
