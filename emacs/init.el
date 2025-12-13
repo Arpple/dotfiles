@@ -891,4 +891,10 @@
 (use-package restclient
   :mode ("\\.http\\'" . restclient-mode))
 
+(use-package zig-mode
+  :ensure t
+  :hook (zig-mode . eglot-ensure)
+  :config
+  )
+
 (load-file "~/.emacs-local.el")
