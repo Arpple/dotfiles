@@ -33,7 +33,7 @@
 	(highlight (:background c-bg2))
 	(line-number (:foreground c-text4 :background c-bg2))
 	(line-number-current-line (:foreground c-text :background c-bg3))
-	(whitespace-tab (:foreground c-text4))
+	(whitespace-tab (:foreground c-bg3))
 	(whitespace-trailing (:background c-bg4))
 
 	(nerd-icons-blue (:foreground c-cyan))

@@ -329,8 +329,8 @@
 (use-package eglot
   :ensure nil ;; Don't install eglot because it's now built-in
   :hook
-  ((c-mode
-    c++-mode ;; Autostart lsp servers for a given mode
+  ((c-ts-mode
+    c++-ts-mode
     lua-mode
     typescript-ts-mode
     tsx-ts-mode) . eglot-ensure)
@@ -340,10 +340,18 @@
   (eglot-autoshutdown t);; Shutdown unused servers.
   (eglot-report-progress nil) ;; Disable LSP server logs (Don't show lsp messages at the bottom, java)
   ;; Manual lsp servers
-  ;;:config
+  :config
   (add-to-list 'eglot-server-programs
-              `((typescript-ts-mode tsx-ts-mode) . ("typescript-langauge-server" "--stdio")))
+               '((c-ts-mode c++-ts-mode) .
+                 ("clangd"
+                  "--background-index"
+                  "--header-insertion=never"
+                  "--completion-style=detailed"
+                  "--fallback-style=llvm"
+                  "--function-arg-placeholders=false")))
   )
+
+(add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode -1)))
 
 ;; flymake
 (use-package sideline-flymake
@@ -896,5 +904,13 @@
   :hook (zig-mode . eglot-ensure)
   :config
   )
+
+(use-package elixir-mode
+  :ensure t
+  :hook (elixir-mode . eglot-ensure)
+  :config
+  )
+
+(column-number-mode 1)
 
 (load-file "~/.emacs-local.el")
