@@ -339,6 +339,7 @@
   (eglot-events-buffer-size 0) ;; No event buffers (LSP server logs)
   (eglot-autoshutdown t);; Shutdown unused servers.
   (eglot-report-progress nil) ;; Disable LSP server logs (Don't show lsp messages at the bottom, java)
+  (eldoc-box-mode +1)
   ;; Manual lsp servers
   :config
   (add-to-list 'eglot-server-programs
