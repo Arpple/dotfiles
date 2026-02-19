@@ -333,6 +333,9 @@
     c++-ts-mode
     lua-mode
     typescript-ts-mode
+    clojure-ts-mode
+    clojurescript-ts-mode
+    clojurec-ts-mode
     tsx-ts-mode) . eglot-ensure)
   :custom
   ;; Good default
@@ -342,6 +345,13 @@
   (eldoc-box-mode +1)
   ;; Manual lsp servers
   :config
+  (use-package jarchive
+    :ensure t
+    :after eglot
+    :config (jarchive-setup))
+
+  (setq eglot-autoshutdown t)
+
   (add-to-list 'eglot-server-programs
                '((c-ts-mode c++-ts-mode) .
                  ("clangd"
@@ -349,7 +359,8 @@
                   "--header-insertion=never"
                   "--completion-style=detailed"
                   "--fallback-style=llvm"
-                  "--function-arg-placeholders=false")))
+                  "--function-arg-placeholders=false"))
+               '(clojure-ts-mode . ("clojure-lsp")))
   )
 
 (add-hook 'eglot-managed-mode-hook (lambda () (eglot-inlay-hints-mode -1)))
@@ -426,6 +437,17 @@
   (yaml-ts-indent-offset 2)
   :config
   (add-to-list 'major-mode-remap-alist '(yaml-mode . yaml-ts-mode)))
+
+(use-package clojure-ts-mode
+  :ensure t  ;; Installs from NonGNU ELPA or MELPA if needed
+  :mode (("\\.clj\\'"  . clojure-ts-mode)
+         ("\\.cljc\\'" . clojure-ts-mode)
+         ("\\.cljs\\'" . clojure-ts-mode)
+         ("\\.edn\\'"  . clojure-ts-mode))
+  :config
+  ;; Optional: Auto-install Tree-sitter grammars if missing (requires git and a C compiler)
+  ;; clojure-ts-mode handles its own grammar installation on first use in many cases
+  )
 
 ;;-- Org Mode
 (use-package org
@@ -903,7 +925,9 @@
 (use-package zig-mode
   :ensure t
   :hook (zig-mode . eglot-ensure)
-  :config
+  :init
+  (setq zig-format-on-save nil)
+  (setq zig-indent-offset 2)
   )
 
 (use-package elixir-mode
@@ -911,6 +935,51 @@
   :hook (elixir-mode . eglot-ensure)
   :config
   )
+;; Tree-sitter auto-install and mode remapping
+(use-package treesit-auto
+  :ensure t
+  :custom
+  (treesit-auto-install 'prompt)  ; Prompt to install missing grammars
+  :config
+  (global-treesit-auto-mode 1))   ; Enable everywhere possible
+
+
+;; Keep CIDER for REPL-driven development (highly recommended!)
+(use-package cider
+  :ensure t
+  :hook ((clojure-ts-mode . cider-mode)        ; Enable CIDER minor mode
+         (cider-repl-mode . subword-mode))
+  :config
+  (setq cider-repl-pop-to-buffer-on-connect t
+        cider-show-error-buffer t
+        cider-repl-use-pretty-printing t
+        cider-repl-history-file "~/.emacs.d/cider-history"))
+
+(use-package rainbow-delimiters
+  :ensure t
+  :hook (clojure-ts-mode . rainbow-delimiters-mode))
+
+(use-package rainbow-delimiters
+  :ensure t
+  :hook (clojure-mode . rainbow-delimiters-mode))
+
+;; Ensure CIDER REPL buffer appears at the bottom with fixed height
+(add-to-list 'display-buffer-alist
+             '("\\*cider-repl"                 ; Buffer name regex (covers both project and generic)
+               (display-buffer-reuse-window
+                display-buffer-in-direction)
+               (direction . bottom)             ; Split below current window
+               (dedicated . t)                  ; Don't reuse for other buffers easily
+               (reusable-frames . nil)
+               (window-height . 0.3)))          ; 30% of frame height (~12-15 lines usually)
+
+;; Optional: Also handle other CIDER buffers like test-report, inspector, etc.
+(add-to-list 'display-buffer-alist
+             '("^\\*cider-\\(test-report\\|inspector\\|macroexpansion\\)"
+               (display-buffer-reuse-window
+                display-buffer-in-direction)
+               (direction . bottom)
+               (window-height . 0.25)))         ; Slightly smaller for secondary buffers
 
 (column-number-mode 1)
 

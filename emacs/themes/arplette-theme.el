@@ -15,6 +15,7 @@
 	(c-text4 "#666666")
 	(c-red "#ff3333")
 	(c-green "#a4ff2e")
+	(c-green-light "#ccffcc")
 	(c-green-dark "#345500")
 	(c-yellow "khaki")
 	(c-bright-yellow "yellow")
