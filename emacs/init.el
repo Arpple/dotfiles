@@ -194,7 +194,7 @@
     "b v" '(dired :wk "Open dired")
     "b j" '(dired-jump :wk "Dired jump to current")
     "b x" '(open-note-file :wk "Note file")
-    "b o" '(kill-other-buffers :wk "kill Other buffer")
+    "b o" '(centaur-tabs-kill-other-buffers-in-current-group :wk "kill Other buffer")
     )
 
   (start/leader-keys
@@ -782,8 +782,8 @@
           treemacs-goto-tag-strategy               'refetch-index
           treemacs-header-scroll-indicators        '(nil . "^^^^^^")
           treemacs-hide-dot-git-directory          t
-          treemacs-indentation                     2
-          treemacs-indentation-string              " "
+          treemacs-indentation                     1
+          treemacs-indentation-string              "| "
           treemacs-is-never-other-window           nil
           treemacs-max-git-entries                 5000
           treemacs-missing-project-action          'ask
@@ -981,6 +981,17 @@
                (direction . bottom)
                (window-height . 0.25)))         ; Slightly smaller for secondary buffers
 
+(use-package evil-multiedit
+  :ensure t
+  :config
+  (evil-multiedit-default-keybinds)
+  )
+
 (column-number-mode 1)
+
+(setq scroll-margin 0          ; default anyway, but make sure
+      scroll-conservatively 10000  ; large value → scroll minimally, almost never recenter
+      scroll-step 1                ; smooth 1-line scrolls when needed
+      auto-window-vscroll nil)     ; disable extra vertical auto-scroll
 
 (load-file "~/.emacs-local.el")

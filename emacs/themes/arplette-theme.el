@@ -104,6 +104,7 @@
   (treemacs-git-ignored-face (:foreground c-text3))
   (treemacs-git-untracked-face (:foreground c-orange-light))
   (treemacs-root-face (:foreground c-orange :underline t))
+  (treemacs-hl-line-face (:foreground c-yellow))
 
   (tab-line (:background c-bg2 :font "Sans Serif" :weight 'bold :height 0.9))
   (centaur-tabs-selected (:foreground c-green :background c-green-dark))
