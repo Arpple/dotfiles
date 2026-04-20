@@ -331,7 +331,7 @@
   :hook
   ((c-ts-mode
     c++-ts-mode
-    lua-mode
+    lua-ts-mode
     typescript-ts-mode
     clojure-ts-mode
     clojurescript-ts-mode
@@ -359,7 +359,9 @@
                   "--header-insertion=never"
                   "--completion-style=detailed"
                   "--fallback-style=llvm"
-                  "--function-arg-placeholders=false"))
+                  "--function-arg-placeholders=false")))
+
+  (add-to-list 'eglot-server-programs
                '(clojure-ts-mode . ("clojure-lsp")))
   )
 
@@ -421,6 +423,7 @@
         (typescript-mode . typescript-ts-mode)
         (conf-toml-mode . toml-ts-mode)
         (yaml-mode . yaml-ts-mode)
+        (lua-mode . lua-ts-mode)
         ))
 
 ;; Or if there is no built in mode
@@ -430,6 +433,7 @@
 (use-package rust-ts-mode :ensure nil :mode "\\.rs\\'")
 (use-package typescript-ts-mode :ensure nil :mode "\\.ts\\'")
 (use-package tsx-ts-mode :ensure nil :mode "\\.tsx\\'")
+(use-package lua-ts-mode :ensure nil :mode "\\.lua\\'")
 (use-package yaml-ts-mode
   :ensure nil
   :mode ("\\.ya?ml\\'" . yaml-ts-mode)
