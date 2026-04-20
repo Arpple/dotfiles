@@ -434,10 +434,7 @@
 (use-package rust-ts-mode :ensure nil :mode "\\.rs\\'")
 (use-package typescript-ts-mode :ensure nil :mode "\\.ts\\'")
 (use-package tsx-ts-mode :ensure nil :mode "\\.tsx\\'")
-(use-package lua-ts-mode
-  :ensure nil
-  :mode "\\.lua\\'"
-  :hook (lua-ts-mode . (lambda () (setq-local treesit-font-lock-level 2))))
+(use-package lua-ts-mode :ensure nil :mode "\\.lua\\'")
 (use-package yaml-ts-mode
   :ensure nil
   :mode ("\\.ya?ml\\'" . yaml-ts-mode)
