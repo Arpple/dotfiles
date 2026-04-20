@@ -282,6 +282,7 @@
 ;;   (setq gruvbox-bold-constructs t)
 ;;   (load-theme 'gruvbox-dark-medium t)) ;; We need to add t to trust this package
 
+(use-package autothemer :ensure t)
 (add-to-list 'custom-theme-load-path "~/.config/emacs/themes/")
 (load-theme 'arplette t)
 
@@ -735,10 +736,6 @@
 (setq gc-cons-threshold (* 2 1000 1000))
 ;; Increase the amount of data which Emacs reads from the process
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
-
-(use-package autothemer
-  :ensure t)
-
 
 (use-package paren-face
   :ensure t
