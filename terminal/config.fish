@@ -22,3 +22,4 @@ end
 # load luarocks
 set -xg LUA_PATH "/usr/share/lua/5.4/?.lua;;/home/arpple/.luarocks/share/lua/5.4/?.lua;/home/arpple/.luarocks/share/lua/5.4/?/init.lua;/usr/share/lua/5.4/?/init.lua"
 set -xg LUA_CPATH "/usr/local/lib/lua/5.4/?.so;/usr/lib/lua/5.4/?.so;/usr/local/lib/lua/5.4/loadall.so;/usr/lib/lua/5.4/loadall.so;./?.so;/home/arpple/.luarocks/lib/lua/5.4/?.so"
+export PATH="$HOME/.local/bin:$PATH"

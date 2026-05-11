@@ -434,7 +434,10 @@
 (use-package rust-ts-mode :ensure nil :mode "\\.rs\\'")
 (use-package typescript-ts-mode :ensure nil :mode "\\.ts\\'")
 (use-package tsx-ts-mode :ensure nil :mode "\\.tsx\\'")
-(use-package lua-ts-mode :ensure nil :mode "\\.lua\\'")
+(use-package lua-ts-mode
+  :ensure nil
+  :mode "\\.lua\\'"
+  :custom (lua-ts-mode-indent-offset 2))
 (use-package yaml-ts-mode
   :ensure nil
   :mode ("\\.ya?ml\\'" . yaml-ts-mode)
@@ -784,7 +787,7 @@
           treemacs-header-scroll-indicators        '(nil . "^^^^^^")
           treemacs-hide-dot-git-directory          t
           treemacs-indentation                     1
-          treemacs-indentation-string              "| "
+          treemacs-indentation-string              (propertize "| " 'face '(:foreground "#666666"))
           treemacs-is-never-other-window           nil
           treemacs-max-git-entries                 5000
           treemacs-missing-project-action          'ask
@@ -837,6 +840,7 @@
        (treemacs-git-mode 'simple)))
 
     (treemacs-hide-gitignored-files-mode nil))
+
   )
 
 (add-hook 'treemacs-mode-hook (lambda () (setq-local truncate-lines t)))
