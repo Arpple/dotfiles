@@ -940,6 +940,17 @@
   :hook (elixir-mode . eglot-ensure)
   :config
   )
+
+(use-package fennel-mode
+  :ensure t
+  :mode "\\.fnl\\'"
+  :hook (fennel-mode . eglot-ensure)
+  :config
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 '(fennel-mode . ("fennel-ls"))
+                 )))
+
 ;; Tree-sitter auto-install and mode remapping
 (use-package treesit-auto
   :ensure t
