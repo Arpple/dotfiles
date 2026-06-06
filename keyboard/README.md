@@ -53,3 +53,12 @@ mkdir -p ~/.config
 ln -s "$PWD/fcitx5" ~/.config/fcitx5
 ```
 
+## Ergo68
+the split [keyboard](https://shop.yushakobo.jp/products/ergo68?_pos=1&_sid=aa321d6f9&_ss=r) I'm using.
+
+remap using this [website](https://remap-keys.app/configure) (use chrome/brave, not work with zen browser)
+
+sometimes it may not detect keyboard, fix permission with
+```sh
+sudo chmod 666 /dev/hidraw*
+```
