@@ -11,6 +11,7 @@ elpa/
 straight/
 transient/
 package-quickstart.el
+projectile-frecency.eld
 
 # Cache and state files
 .cache/

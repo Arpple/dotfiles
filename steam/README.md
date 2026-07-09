@@ -7,38 +7,7 @@ this module provide
 
 ## Setup
 
-### Install GPU driver (Nvidia)
-use `nvidia-dkms` instead of `nvidia` because it update more frequent
-
-``` sh
-yay -S nvidia-dkms nvidia-settings nvidia-utils lib32-nvidia-utils lib32-opencl-nvidia opencl-nvidia libvdpau libxnvctrl vulkan-icd-loader lib32-vulkan-icd-loader
-```
-
-### Config GPU
-generate Nvidia Xorg config file and move it
-``` sh
-sudo nvidia-xconfig
-sudo mv /etc/X11/xorg.conf /etc/X11/xorg.conf.d/20-nvidia.conf
-```
-
-edit newly created file, add these into "Device" section
-``` ini
-Option         "TripleBuffer" "on"
-Option         "Coolbits" "28"
-```
-
-also add these into "Screen" section"
-
-``` ini
-Option         "metamodes" "nvidia-auto-select +0+0 {ForceCompositionPipeline=On, ForceFullCompositionPipeline=On}"
-Option         "AllowIndirectGLXProtocol" "off"
-```
-
-reboot after
-
-### Steam and tools
-
-#### Enable Multilib
+### Enable Multilib
 need to enable this package repo first before you can install Steam
 
 edit `/etc/pacman.conf`, uncomment multilib section. 
@@ -47,6 +16,17 @@ edit `/etc/pacman.conf`, uncomment multilib section.
 [multilib]
 Include = /etc/pacman.d/mirrorlist
 ```
+
+### Install GPU driver (Nvidia)
+use `nvidia-open-dkms` instead of `nvidia` or `nvidia-dkms` because it update more frequent
+
+``` sh
+yay -S nvidia-open-dkms nvidia-settings nvidia-utils lib32-nvidia-utils lib32-opencl-nvidia opencl-nvidia libvdpau libxnvctrl vulkan-icd-loader lib32-vulkan-icd-loader
+```
+
+reboot after
+
+### Steam and tools
 
 #### Install Steam
 ``` sh

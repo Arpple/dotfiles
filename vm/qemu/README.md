@@ -7,7 +7,7 @@ this module provides
 ## Setup
 ### Install packages
 ``` sh
-yay -S qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libguestfs
+yay -S qemu-full virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libguestfs
 ```
 
 enable vm service and add user group
@@ -72,6 +72,9 @@ use login/session manager like `ssdm`, `lightdm` or `ly`
 
 in case you use those, just run `x-resize` manually everytime *shrug*
 
+### Enable VM resize
+from VM window > View > Scale Display > Check : Auto Resize VM Display
+
 ### Detect udev event
 to check if spice channel send event on resize or not, run this on guest
 ``` sh
@@ -99,7 +102,7 @@ create new script that can manually resize your VM. create `/usr/local/bin/x-res
 ``` sh
 #! /bin/sh
 export DISPLAY=:0
-export XAUTHORITY=/home/arpple/.Xauthority
+export XAUTHORITY=/run/user/1000/lyxauth
 
 OUTPUT=$(xrandr | grep -w "connected" | awk '{print $1}')
 xrandr --output "$OUTPUT" --auto

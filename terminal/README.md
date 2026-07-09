@@ -25,7 +25,9 @@ link all config files
 mkdir -p ~/.config/fish ~/.config/alacritty
 
 rm ~/.config/fish/config.fish
+rm -r ~/.config/fish/functions
 ln -s "$PWD/config.fish" ~/.config/fish/config.fish
+mkdir ~/.config/fish/functions
 ln -s "$PWD/functions/v.fish" ~/.config/fish/functions/v.fish
 
 rm ~/.config/alacritty/alacritty.toml

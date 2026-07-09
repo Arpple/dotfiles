@@ -11,10 +11,34 @@ run install command
 archinstall
 ```
 
-- partition > recommend > ext4
-- Profile > Type > xorg
-- Additional: git base-devel vim
-- select NetworkManager
+*** Partition
+sometimes archinstall fail to wipe old data and install on top of old drive.
+use ~cfdisk~ to delete old partition before running archinstall
+
+**** Boot
+- 1 GiB
+- fat32
+- /boot
+
+**** Swap
+- same as RAM size (check ram size with ~free -h~)
+- linux-swap
+
+**** Root
+- 200 GiB
+- ext4
+- /
+
+**** Home
+- remaining
+- ext4
+- /home
+
+*** Other choice
+- Profile: KDE Plasma (meta)
+- Additional Package: git base-devel vim alacritty
+- NetworkManager, Bluetooth
+- additioan fonts
 
 ** Install AUR
 #+begin_src sh
@@ -23,24 +47,18 @@ cd yay
 makepkg -si
 #+end_src
 
-** Install package
-#+begin_src sh
-git clone https://github.com/arpple/dotfiles
-yay -S --needed - < pacman/packages.txt
-
-./setup.sh
-#+end_src
-
 ** Change shell
 #+begin_src sh
 # if already in fish shell
 chsh -s (which fish)
 #+end_src
 
-** Install doom emacs
+** Install Emacs
 #+begin_src fish
-git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
-~/.emacs.d/bin/doom install
+yay -S emacs-wayland
+rm -rf ~/.emacs.d
+touch ~/.emacs-local.el
+ln -s "$PWD/emacs" "~/.config/emacs"
 #+end_src
 
 ** Install fisher

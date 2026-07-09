@@ -3,7 +3,7 @@ this module provide
 - keyboard input for EN/JP/TH
 - auto complete style for JP (similar to Windows IME)
 
-## Setup
+## Input Setup
 
 ### Fonts
 
