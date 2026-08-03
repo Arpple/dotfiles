@@ -117,7 +117,7 @@
   :after evil
   :config
   ;; Setting where to use evil-collection
-  (setq evil-collection-mode-list '(dired ibuffer magit corfu vertico consult info))
+  (setq evil-collection-mode-list '(dired ibuffer magit corfu vertico consult info ediff))
   (evil-collection-init))
 
 (use-package evil-goggles
@@ -507,6 +507,32 @@
                           'magit-insert-unpushed-to-pushremote t)
   )
 
+;;-- Ediff
+(use-package ediff
+  :defer
+  :custom
+  ;; Keep everything in the current frame instead of popping a new frame
+  ;; for the control panel (that's the "new tab" the multiframe setup causes)
+  (ediff-window-setup-function #'ediff-setup-windows-plain)
+  (ediff-split-window-function #'split-window-horizontally)
+  (ediff-diff-options "-w")
+  :config
+  (defvar my/ediff-saved-wconf nil)
+  (add-hook 'ediff-before-setup-hook
+            (lambda ()
+              (setq my/ediff-saved-wconf (current-window-configuration))
+              ;; Hide the centaur-tabs bar so ediff has the frame to itself
+              (when (bound-and-true-p centaur-tabs-mode)
+                (centaur-tabs-mode -1))))
+  (dolist (hook '(ediff-quit-hook ediff-suspend-hook))
+    (add-hook hook
+              (lambda ()
+                (when (window-configuration-p my/ediff-saved-wconf)
+                  (set-window-configuration my/ediff-saved-wconf))
+                (unless (bound-and-true-p centaur-tabs-mode)
+                  (centaur-tabs-mode 1)))
+              100)))
+
 (use-package diff-hl
   :hook ((dired-mode         . diff-hl-dired-mode-unless-remote)
          (magit-pre-refresh . diff-hl-magit-pre-refresh)
@@ -831,6 +857,7 @@
     (treemacs-follow-mode t)
     (treemacs-filewatch-mode t)
     (treemacs-fringe-indicator-mode 'always)
+    (treemacs-project-follow-mode t)
 
     (pcase (cons (not (null (executable-find "git")))
                  (not (null treemacs-python-executable)))
@@ -851,7 +878,15 @@
 
 (use-package treemacs-projectile
   :after (treemacs projectile)
-  :ensure t)
+  :ensure t
+  :config
+  ;; treemacs-project-follow-mode debounces on an idle timer, which can get
+  ;; stuck and miss updates right after `projectile-switch-project'. Force a
+  ;; deterministic refresh right after switching instead.
+  (add-hook 'projectile-after-switch-project-hook
+            (lambda ()
+              (when (treemacs-get-local-window)
+                (treemacs-add-and-display-current-project-exclusively)))))
 
 (use-package treemacs-magit
   :after (treemacs magit)
