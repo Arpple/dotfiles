@@ -83,6 +83,7 @@ sudo chmod 666 /var/run/docker.sock
 add to ~/.xinitrc
 #+begin_src sh
 xset r rate 220 40
+setxkbmap -option ctrl:nocaps
 #+end_src
 
 ** Troubleshoots
