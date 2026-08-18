@@ -959,7 +959,9 @@
   :hook (yaml-mode . (lambda () (setq tab-width 2))))  ; YAML convention: 2 spaces
 
 (use-package restclient
-  :mode ("\\.http\\'" . restclient-mode))
+  :mode ("\\.http\\'" . restclient-mode)
+  :config
+  (setq restclient-enable-eval t))
 
 (use-package zig-mode
   :ensure t
