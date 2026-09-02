@@ -8,6 +8,10 @@ starship init fish | source
 
 # any-nix-shell fish --info-right | source
 
+# sf CLI: no keyring daemon on this box, so secret-tool can't reach the
+# Secret Service D-Bus API; fall back to the file-based generic keychain
+set -gx SF_USE_GENERIC_UNIX_KEYCHAIN true
+
 # pnpm
 set -gx PNPM_HOME "/home/arpple/.local/share/pnpm"
 if not string match -q -- $PNPM_HOME $PATH

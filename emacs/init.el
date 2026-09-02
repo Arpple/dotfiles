@@ -757,8 +757,9 @@
   (setq global-hl-line-sticky-flag t))
 
 ;; optimize
-;; Make gc pauses faster by decreasing the threshold.
-(setq gc-cons-threshold (* 2 1000 1000))
+;; Raise the GC threshold so collection runs less often; fewer, larger
+;; pauses beat frequent small ones when editing big buffers.
+(setq gc-cons-threshold (* 100 1000 1000))
 ;; Increase the amount of data which Emacs reads from the process
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
@@ -781,8 +782,6 @@
   :custom
   (whitespace-style '(face tabs tab-mark trailing))
   (whitespace-display-mappings '((tab-mark 9 [124 9] [92 9])))
-  :config
-  (global-whitespace-mode)
 )
 
 (use-package treemacs
@@ -892,7 +891,8 @@
   :ensure t)
 
 (use-package markdown-mode
-  :ensure t)
+  :ensure t
+  )
 
 (use-package eldoc
   :init
