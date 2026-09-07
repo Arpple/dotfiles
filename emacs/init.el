@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;; use-package
 (require 'use-package-ensure) ;; Load use-package-always-ensure
 (setq use-package-always-ensure t) ;; Always ensures that a package is installed

@@ -1,3 +1,5 @@
+;;; arplette-theme.el --- arplette theme -*- lexical-binding: t; -*-
+
 (require 'autothemer)
 
 (autothemer-deftheme
