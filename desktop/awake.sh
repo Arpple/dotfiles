@@ -9,7 +9,7 @@ echo "Anti-idle script started. Press Ctrl+C to stop."
 
 # You can change this:
 INTERVAL=60          # seconds between key presses
-KEY="Shift"          # Safe key (doesn't interfere much)
+KEY="Alt"          # Safe key (doesn't interfere much)
 
 while true; do
     echo "Sending $KEY key..."

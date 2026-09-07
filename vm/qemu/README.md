@@ -97,6 +97,12 @@ echo $DISPLAY
 
 this will give you display number. in my case `:0`
 
+### Dependencies
+install deps
+```sh
+yay -S xorg-xrandr
+```
+
 ### Create resize script
 create new script that can manually resize your VM. create `/usr/local/bin/x-resize`
 ``` sh
