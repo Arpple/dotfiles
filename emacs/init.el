@@ -10,6 +10,8 @@
 
 (setq package-quickstart t) ;; For blazingly fast startup times, this line makes startup miles faster
 
+(setq native-comp-async-report-warnings-errors 'silent) ;; Log native-comp warnings to *Async-native-compile-log* instead of popping up *Warnings*
+
 (defun open-note-file ()
   "Open the ~/temp.md file"
   (interactive)
@@ -1042,6 +1044,29 @@
   )
 
 (column-number-mode 1)
+
+(use-package csv-mode
+  :ensure t
+  :mode ("\\.csv\\'"
+         "\\.tsv\\'"
+         "\\.tabular\\'")
+  :hook (csv-mode . my/csv-mode-setup)
+  :config
+  ;; Customize how columns are padded during alignment
+  (setq csv-align-padding 2)
+  ;; Prevent extremely wide strings from blowing out the layout
+  (setq csv-align-max-width 30)
+
+  (defun my/csv-mode-setup ()
+    "Optimized viewer settings for CSV files."
+    ;; Align columns automatically into a readable table
+    (csv-align-mode 1)
+    ;; Pin the first row to the top of the window as a header line
+    (csv-header-line t)
+    ;; Show the active column number/name in the mode-line
+    (csv-field-index-mode 1)
+    ;; Prevent long data columns from wrapping to the next line
+    (toggle-truncate-lines 1)))
 
 (setq scroll-margin 0          ; default anyway, but make sure
       scroll-conservatively 10000  ; large value → scroll minimally, almost never recenter
