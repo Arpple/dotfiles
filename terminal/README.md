@@ -35,6 +35,7 @@ ln -s "$PWD/alacritty.toml" ~/.config/alacritty/alacritty.toml
 
 rm ~/.config/ghostty/config
 ln -s "$PWD/ghostty.config" ~/.config/ghostty/config
+ln -s "$PWD/ghostty.css" ~/.config/ghostty/ghostty.css
 
 rm ~/.config/starship.toml
 ln -s "$PWD/starship.toml" ~/.config/starship.toml
