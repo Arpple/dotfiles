@@ -1043,6 +1043,11 @@
   (evil-multiedit-default-keybinds)
   )
 
+;; vertical align
+(use-package valign
+  :ensure t
+  :hook (markdown-mode . valign-mode))
+
 (column-number-mode 1)
 
 (use-package csv-mode

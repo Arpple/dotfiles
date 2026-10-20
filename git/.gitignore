@@ -5,3 +5,5 @@ tmp/
 
 .arpple/
 *.arpple.*
+
+**/.claude/settings.local.json
