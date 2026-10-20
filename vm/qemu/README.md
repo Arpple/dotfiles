@@ -26,6 +26,43 @@ may need to logout to apply change
 - make sure display is set to **Spice** and video is set to **Virtio**
 - install Arch Linux
 
+### Enable 3D acceleration (fix screen tearing)
+without GL, guest renders in software and spice streams unsynced frames to the viewer, which tears badly
+(especially on Wayland host). enable virgl + spice GL so frames are passed to host GPU and presented in sync.
+
+shut down the VM, then edit it
+``` sh
+virsh -c qemu:///system edit <vm-name>
+```
+
+set video to virtio with 3D
+``` xml
+<video>
+  <model type='virtio' heads='1' primary='yes'>
+    <acceleration accel3d='yes'/>
+  </model>
+</video>
+```
+
+set spice to local only with GL
+``` xml
+<graphics type='spice'>
+  <listen type='none'/>
+  <image compression='off'/>
+  <gl enable='yes' rendernode='/dev/dri/by-path/pci-0000:2d:00.0-render'/>
+</graphics>
+```
+
+may need to edit
+- `rendernode` based on your host GPU, check with `ls -l /dev/dri/by-path/`
+
+note: `listen type='none'` means VM can only be viewed from virt-manager / virt-viewer on host (no remote spice port)
+
+on guest, make sure `mesa` is installed so virgl is used. verify with
+``` sh
+glxinfo -B | grep renderer   # should show virgl
+```
+
 ### Setup Guest
 install yay package manager
 ``` sh

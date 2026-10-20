@@ -138,6 +138,14 @@
                                   "--background-index"
                                   "--function-arg-placeholders=0")))
 
+;; electric-indent-mode (from the `electric' Doom module) triggers CC-mode's
+;; macro backslash-column realignment on every reindent, which hits the same
+;; broken style-variable code path as `c-backslash-region' (errors with
+;; "Wrong type argument: number-or-marker-p, set-from-style") and silently
+;; mangles trailing `\' in multi-line #define macros. Disable it for C buffers
+;; only so manually-typed backslashes are left alone.
+(add-hook 'c-mode-hook (lambda () (electric-indent-local-mode -1)))
+
 ;; zig
 (after! lsp-mode
   (setq lsp-zig-zig-lib-path "/usr/lib/zig"))
