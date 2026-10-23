@@ -121,7 +121,7 @@
   :after evil
   :config
   ;; Setting where to use evil-collection
-  (setq evil-collection-mode-list '(dired ibuffer magit corfu vertico consult info ediff))
+  (setq evil-collection-mode-list '(dired ibuffer magit corfu vertico consult info ediff sly))
   (evil-collection-init))
 
 (use-package evil-goggles
@@ -163,6 +163,12 @@
     :keymaps 'override
     :prefix "SPC"
     :global-prefix "SPC") ;; Set global leader key so we can access our keybindings from any state
+
+  ;; 'SPC c' code keys. Not in 'override, so a major/minor mode map can
+  ;; bind the same key and win over the generic one (e.g. SPC c c = compile).
+  (general-create-definer start/code-keys
+    :states '(normal visual motion)
+    :prefix "SPC c")
 
   (start/leader-keys
     "TAB" '(comment-line :wk "Comment lines")
@@ -206,8 +212,42 @@
 
   (start/leader-keys
     "c" '(:ignore t :wk "Code")
-    "c r" '(eglot-rename :wk "Rename")
-    "c d" '(eldoc-doc-buffer :wk "Document")
+    )
+
+  ;; Generic (any language)
+  (start/code-keys
+    :keymaps 'global
+    "r" '(eglot-rename :wk "Rename")
+    "d" '(eldoc-doc-buffer :wk "Document")
+    )
+
+  ;; C / C++
+  (start/code-keys
+    :keymaps 'c-ts-base-mode-map
+    :package 'c-ts-mode
+    "c" '(compile :wk "Compile (make)")
+    "C" '(recompile :wk "Recompile")
+    )
+
+  ;; Common Lisp (SLY)
+  (start/code-keys
+    :keymaps 'sly-mode-map
+    :package 'sly
+    "c" '(sly-compile-defun :wk "Compile defun")
+    "C" '(sly-compile-and-load-file :wk "Compile & load file")
+    "s" '(sly :wk "Start SBCL")
+    "r" '(sly-mrepl :wk "REPL")
+    "e" '(sly-eval-last-expression :wk "Eval last expr")
+    "p" '(sly-pprint-eval-last-expression :wk "Eval & pprint")
+    "m" '(sly-macroexpand-1 :wk "Macroexpand-1")
+    "M" '(sly-macroexpand-all :wk "Macroexpand all")
+    "i" '(sly-inspect :wk "Inspect")
+    "h" '(sly-hyperspec-lookup :wk "HyperSpec")
+    "d" '(sly-describe-symbol :wk "Describe symbol")
+    "a" '(sly-apropos :wk "Apropos")
+    "w" '(sly-who-calls :wk "Who calls")
+    "q" '(sly-quit-lisp :wk "Quit Lisp")
+    "t" '(parinfer-rust-toggle-paren-mode :wk "Toggle parinfer paren mode")
     )
 
   (start/leader-keys
@@ -578,7 +618,16 @@
   ;; be used globally (M-/).  See also the customization variable
   ;; `global-corfu-modes' to exclude certain modes.
   :init
-  (global-corfu-mode))
+  (global-corfu-mode)
+  :config
+  ;; Evil insert-state bindings (TAB = tab-to-tab-stop, RET = sly-mrepl-return
+  ;; in the SLY REPL via evil-collection) shadow corfu-map; rebind them in
+  ;; corfu-map's insert-state map so they act on the popup while it is open.
+  (evil-define-key 'insert corfu-map
+    (kbd "TAB") #'corfu-complete
+    (kbd "<tab>") #'corfu-complete
+    (kbd "RET") #'corfu-insert
+    (kbd "<return>") #'corfu-insert))
 
 (use-package nerd-icons-corfu
   :after corfu
@@ -1036,6 +1085,92 @@
                 display-buffer-in-direction)
                (direction . bottom)
                (window-height . 0.25)))         ; Slightly smaller for secondary buffers
+
+;;-- Common Lisp (SLY + SBCL)
+(use-package sly
+  :ensure t
+  :hook
+  (lisp-mode . rainbow-delimiters-mode)
+  (sly-mrepl-mode . rainbow-delimiters-mode)
+  (sly-mrepl-mode . my/sly-mrepl-insert-ret)
+  :custom
+  (inferior-lisp-program "sbcl")
+  :config
+  (sly-symbol-completion-mode -1) ;; Let corfu do completion instead of SLY's own popup
+  (defun my/sly-mrepl-insert-ret ()
+    ;; evil-collection makes insert-state RET a plain newline in the REPL, so
+    ;; input for read-line (e.g. *query-io* prompts) is never sent.
+    ;; sly-mrepl-return still inserts a newline for incomplete expressions.
+    ;; Bound from the mode hook so it runs after evil-collection's bindings.
+    (evil-define-key 'insert sly-mrepl-mode-map
+      (kbd "RET") #'sly-mrepl-return
+      (kbd "<return>") #'sly-mrepl-return)
+    (evil-normalize-keymaps))
+
+  (defun my/sly-goto-definition ()
+    "Go to definition via SLY, falling back to a buffer search.
+SLY only knows global definitions loaded into the running Lisp, so for
+function arguments, let variables, or defvars not compiled yet, jump to
+the first earlier occurrence in the current top-level form (like vim's
+gd), else to a (def... NAME) form in the buffer."
+    (interactive)
+    (let ((name (sly-symbol-at-point)))
+      (evil-set-jump)
+      (if (not name)
+          (call-interactively #'sly-edit-definition)
+        (condition-case nil
+            (sly-edit-definition name)
+          (error
+           (let* ((case-fold-search t) ;; Lisp symbols are case-insensitive
+                  (sym (concat "\\_<" (regexp-quote name) "\\_>"))
+                  (start (car (bounds-of-thing-at-point 'symbol)))
+                  (top (syntax-ppss-toplevel-pos (syntax-ppss)))
+                  (target
+                   (or (and top
+                            (save-excursion
+                              (goto-char top)
+                              (and (re-search-forward sym start t)
+                                   (match-beginning 0))))
+                       (save-excursion
+                         (goto-char (point-min))
+                         (and (re-search-forward
+                               (concat "^(def[^ \t\n]*[ \t\n]+" sym) nil t)
+                              (- (match-end 0) (length name)))))))
+             (if target
+                 (goto-char target)
+               (user-error "No definition found for: %s" name))))))))
+
+  (evil-define-key 'normal sly-mode-map
+    "K" 'sly-describe-symbol
+    "gd" 'my/sly-goto-definition
+    "gr" 'sly-who-calls))
+
+;; Parinfer: indentation drives the parens
+(use-package parinfer-rust-mode
+  :ensure t
+  :hook (lisp-mode . my/lisp-parinfer-setup)
+  :init
+  (setq parinfer-rust-auto-download t) ;; Fetch the Rust library into ~/.config/emacs/parinfer-rust/
+  (defun my/lisp-parinfer-setup ()
+    ;; Turn off parinfer's "troublesome modes" locally first; otherwise it
+    ;; calls (electric-pair-mode -1), which disables pairing globally.
+    (setq-local indent-tabs-mode nil) ;; Tabs break Lisp alignment
+    (electric-pair-local-mode -1)
+    (parinfer-rust-mode 1)))
+
+;; Highlight defun parameters / let-bound variables and quoted forms
+(use-package lisp-extra-font-lock
+  :ensure t
+  :config
+  (lisp-extra-font-lock-global-mode 1))
+
+;; SLY REPL at the bottom, like CIDER
+(add-to-list 'display-buffer-alist
+             '("\\*sly-mrepl"
+               (display-buffer-reuse-window
+                display-buffer-in-direction)
+               (direction . bottom)
+               (window-height . 0.3)))
 
 (use-package evil-multiedit
   :ensure t

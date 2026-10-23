@@ -63,3 +63,8 @@ history
 projectile-bookmarks.eld
 custom-vars.el
 eln-cache/
+# parinfer-rust library (auto-downloaded)
+parinfer-rust/
+
+# tramp connection history
+tramp
