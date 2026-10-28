@@ -139,6 +139,9 @@
 	(eglot-diagnostic-tag-unnecessary-face (:inherit 'flymake-warning))
 	(eglot-highlight-symbol-face (:background c-bg3))
 
+	(iedit-occurrence (:foreground c-bg :background c-orange))
+	(iedit-read-only-occurrence (:foreground c-bg :background c-orange-light))
+
 	(typescript-ts-jsx-tag-face (:foreground c-cyan))
 	(typescript-ts-jsx-attribute-face (:foreground c-orange-light))
 

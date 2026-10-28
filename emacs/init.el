@@ -1176,6 +1176,35 @@ gd), else to a (def... NAME) form in the buffer."
   :ensure t
   :config
   (evil-multiedit-default-keybinds)
+
+  ;; `c' leaves an undo boundary between the change at point and the
+  ;; changes iedit mirrors to other occurrences, so `u' only half-reverts.
+  ;; Merge everything until leaving insert state into one undo step.
+  (defvar-local my/multiedit-undo-start nil)
+  (defun my/multiedit-undo-start (&rest _)
+    (undo-boundary)
+    (setq my/multiedit-undo-start (or buffer-undo-list t))
+    (add-hook 'evil-insert-state-exit-hook #'my/multiedit-undo-end nil t))
+  (defun my/multiedit-undo-end ()
+    ;; `c' briefly leaves insert state to read the motion (operator state)
+    ;; and re-enters it, so wait for a real exit
+    (unless (memq evil-next-state '(insert operator))
+      (remove-hook 'evil-insert-state-exit-hook #'my/multiedit-undo-end t)
+      (let ((start my/multiedit-undo-start)
+            (tail buffer-undo-list))
+        (setq my/multiedit-undo-start nil)
+        (while (and (consp tail) (not (eq tail start)))
+          (setq tail (cdr tail)))
+        ;; only touch the list if the start point is still in it
+        (when (and start (listp buffer-undo-list)
+                   (eq tail (if (eq start t) nil start)))
+          (setq buffer-undo-list (evil-filter-list #'null buffer-undo-list start))
+          ;; evil's own pointer may reference a boundary removed above
+          (when evil-undo-list-pointer
+            (setq evil-undo-list-pointer (or buffer-undo-list t)))
+          (undo-boundary)))))
+  (advice-add 'evil-multiedit--change :before #'my/multiedit-undo-start)
+  (advice-add 'evil-multiedit--change-line :before #'my/multiedit-undo-start)
   )
 
 ;; vertical align
